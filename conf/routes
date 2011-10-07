@@ -1,0 +1,15 @@
+# This file defines all module routes (Higher priority routes first)
+#
+# import these routes in the main app as :
+# *     /                       module:cms
+#
+# ~~~~
+
+# Admin
+GET      /admin						              cms.Admin.index
+GET      /admin/new						          cms.Admin.addPage
+GET      /admin/{pageName}			          		cms.Admin.editPage
+
+#Frontend
+GET     /{template}/{pageName}              cms.Frontend.show
+
