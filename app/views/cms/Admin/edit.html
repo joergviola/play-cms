@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+#{extends 'cms/cms.html' /}
 
 <head>
 <script type="text/javascript" src="/public/tiny_mce/tiny_mce.js" ></script >
@@ -19,18 +18,18 @@ tinyMCE.init({
 });
 </script >
 </head>
-<body>
+
 #{form @cms.Admin.savePage()}
 <table>
-	<tr>
+	<tr valign="top">
 		<td>Name:</td>
 		<td><input type="text" size="20" name="page.name" value="${page.name}"></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td>Title:</td>
 		<td><input type="text" size="60" name="page.title" value="${page.title}"></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td>Body:</td>
 		<td><textarea rows="30" cols="60" name="page.body">${page.body}</textarea></td>
 	</tr>
@@ -47,4 +46,3 @@ tinyMCE.init({
 
 
 #{/form}
-</body>
