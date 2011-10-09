@@ -1,5 +1,6 @@
 package controllers.cms;
 
+import models.cms.CMSImage;
 import models.cms.CMSPage;
 import play.mvc.Controller;
 
@@ -9,5 +10,10 @@ public class Frontend extends Controller {
 		if (page == null)
 			notFound();
 		renderTemplate("/" + template + ".html", page);
+	}
+
+	public static void image(String name) {
+		CMSImage image = CMSImage.findById(name);
+		renderBinary(image.data.get());
 	}
 }

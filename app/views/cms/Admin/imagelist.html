@@ -1,0 +1,6 @@
+var tinyMCEImageList = new Array(
+        // Name, URL
+#{list items:images, as:'image' }
+        ["${image.title}", "../image/${image.name}"]#{ifnot image_isLast},#{/ifnot}
+#{/list}
+);

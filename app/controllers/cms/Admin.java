@@ -1,9 +1,18 @@
 package controllers.cms;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
+import models.cms.CMSImage;
 import models.cms.CMSPage;
+
+import org.apache.commons.lang.StringUtils;
+
 import play.data.validation.Valid;
+import play.db.jpa.Blob;
+import play.libs.MimeTypes;
 import play.mvc.Controller;
 import play.mvc.With;
 import controllers.Check;
@@ -33,5 +42,28 @@ public class Admin extends Controller {
 		if (request.params.get("savePage") != null)
 			Frontend.show(tmpl, page.name);
 		index();
+	}
+
+	public static void upload(File data, String title) {
+		CMSImage image = new CMSImage();
+		image.name = data.getName();
+		if (StringUtils.isEmpty(title))
+			image.title = data.getName();
+		else
+			image.title = title;
+		String mimeType = MimeTypes.getContentType(data.getName());
+		image.data = new Blob();
+		try {
+			image.data.set(new FileInputStream(data), mimeType);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		image.save();
+		redirectToStatic("/public/tiny_mce/plugins/advimage/image.htm");
+	}
+
+	public static void imagelist() {
+		List<CMSImage> images = CMSImage.findAll();
+		render(images);
 	}
 }
