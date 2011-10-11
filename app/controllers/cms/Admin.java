@@ -38,6 +38,10 @@ public class Admin extends Controller {
 	}
 
 	public static void savePage(@Valid CMSPage page, String tmpl) {
+		if (request.params.get("delete") != null) {
+			page.delete();
+			index();
+		}
 		page.save();
 		if (request.params.get("savePage") != null)
 			Frontend.show(tmpl, page.name);

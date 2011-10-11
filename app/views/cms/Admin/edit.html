@@ -5,6 +5,7 @@
 <script type="text/javascript" >
 tinyMCE.init({
     mode : "textareas",
+    elements : 'nourlconvert',
     theme : "advanced",
     plugins : "advimage, advlink",
     
@@ -15,7 +16,8 @@ tinyMCE.init({
     theme_advanced_toolbar_align : "left",
     theme_advanced_statusbar_location : "bottom",
     theme_advanced_resizing : true,
-    external_image_list_url : "imagelist.js"
+    external_image_list_url : "imagelist.js",
+    convert_urls : false
 });
 </script >
 </head>
@@ -44,6 +46,7 @@ tinyMCE.init({
 <input type="hidden" name="tmpl" value="${tmpl}">
 #{/else}
 <input type="submit" name="savePage" value="Save &amp; goto page">
+<input type="submit" name="delete" value="Delete">
 
 
 #{/form}
