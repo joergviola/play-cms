@@ -37,7 +37,8 @@ public class Admin extends Controller {
 		renderTemplate("@edit", page);
 	}
 
-	public static void savePage(@Valid CMSPage page, String tmpl) {
+	public static void savePage(@Valid CMSPage page, String tmpl, boolean active) {
+		page.active = active;
 		if (request.params.get("delete") != null) {
 			page.delete();
 			index();

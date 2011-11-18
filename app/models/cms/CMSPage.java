@@ -22,5 +22,5 @@ public class CMSPage extends GenericModel {
 	@Type(type = "org.hibernate.type.TextType")
 	@Column(length = 10000)
 	public String body;
-
+	public boolean active;
 }

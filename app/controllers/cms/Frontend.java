@@ -7,7 +7,7 @@ import play.mvc.Controller;
 public class Frontend extends Controller {
 	public static void show(String template, String pageName) {
 		CMSPage page = CMSPage.findById(pageName);
-		if (page == null)
+		if (page == null || !page.active)
 			notFound();
 		renderTemplate("/" + template + ".html", page);
 	}

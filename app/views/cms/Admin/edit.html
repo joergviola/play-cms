@@ -33,6 +33,10 @@ tinyMCE.init({
 		<td><input type="text" size="60" name="page.title" value="${page.title}"></td>
 	</tr>
 	<tr valign="top">
+		<td>Active:</td>
+		<td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
+	</tr>
+	<tr valign="top">
 		<td>Body:</td>
 		<td><textarea rows="30" cols="60" name="page.body">${page.body}</textarea></td>
 	</tr>

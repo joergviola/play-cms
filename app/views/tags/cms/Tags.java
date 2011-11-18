@@ -21,10 +21,11 @@ public class Tags extends FastTags {
 			page = new CMSPage();
 			page.name = pageName;
 			page.title = "Fragment on "+template.template.name;
-			page.body = "";
+			page.body = JavaExtensions.toString(body);
+			page.active = false;
 			page.save();
 			out.print(JavaExtensions.toString(body));
-		} else if (page.body.length()==0) {
+		} else if (!page.active) {
 			out.print(JavaExtensions.toString(body));
 		} else {
 			out.print(page.body);
