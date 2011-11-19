@@ -34,6 +34,7 @@ public class Admin extends Controller {
 
 	public static void addPage() {
 		CMSPage page = new CMSPage();
+		page.active = true;
 		renderTemplate("@edit", page);
 	}
 

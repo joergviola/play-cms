@@ -9,6 +9,9 @@ public class Frontend extends Controller {
 		CMSPage page = CMSPage.findById(pageName);
 		if (page == null || !page.active)
 			notFound();
+		if (template == null) {
+			template = "default";
+		}
 		renderTemplate("/" + template + ".html", page);
 	}
 
