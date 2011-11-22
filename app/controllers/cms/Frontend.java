@@ -5,12 +5,16 @@ import models.cms.CMSPage;
 import play.mvc.Controller;
 
 public class Frontend extends Controller {
-	public static void show(String template, String pageName) {
+	public static void show(String template, String pageName) throws Throwable {
 		CMSPage page = CMSPage.findById(pageName);
-		if (page == null || !page.active)
-			notFound();
+		if (page == null || !page.active) {
+			if (Profiler.canEdit(pageName))
+				Admin.editPage(null, pageName);
+			else
+				notFound();
+		}
 		if (template == null) {
-			template = "default";
+			template = "cms/default";
 		}
 		renderTemplate("/" + template + ".html", page);
 	}

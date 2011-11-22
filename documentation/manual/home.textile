@@ -3,8 +3,7 @@ h1. A simple CMS for Play! applications
 Ever had the requirement to quickly do a simple textual change to one of the static pages of your app? - Here comes the solution: Embed a simple CMS!
 * Create static pages with editable content
 * Declare parts of dynamic pages to be editable via the CMS
-* Use tinymce with an image uploader to edit pages and fragments!
-To dig deeper into this module, see <a href="documentation/manual/home.textile">the documentation</a>.
+* Use timymce with an image uploader to edit pages and fragments!
 
 h1. Quickstart
 

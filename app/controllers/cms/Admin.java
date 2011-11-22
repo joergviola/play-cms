@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import jj.play.org.eclipse.mylyn.wikitext.core.parser.MarkupParser;
+import jj.play.org.eclipse.mylyn.wikitext.textile.core.TextileLanguage;
+
 import models.cms.CMSImage;
 import models.cms.CMSPage;
 
@@ -29,6 +32,11 @@ public class Admin extends Controller {
 
 	public static void editPage(String tmpl, String pageName) {
 		CMSPage page = CMSPage.findById(pageName);
+		if (page==null) {
+			page = new CMSPage();
+			page.name = pageName;
+			page.active = true;
+		}
 		renderTemplate("@edit", page, tmpl);
 	}
 
@@ -38,7 +46,7 @@ public class Admin extends Controller {
 		renderTemplate("@edit", page);
 	}
 
-	public static void savePage(@Valid CMSPage page, String tmpl, boolean active) {
+	public static void savePage(@Valid CMSPage page, String tmpl, boolean active) throws Throwable {
 		page.active = active;
 		if (request.params.get("delete") != null) {
 			page.delete();
@@ -72,4 +80,5 @@ public class Admin extends Controller {
 		List<CMSImage> images = CMSImage.findAll();
 		render(images);
 	}
+	
 }
