@@ -1,10 +1,12 @@
 h1. A simple CMS for Play! applications
 
 Ever had the requirement to quickly do a simple textual change to one of the static pages of your app? - Here comes the solution: Embed a simple CMS!
+
 * Create static pages with editable content
 * Declare parts of dynamic pages to be editable via the CMS
 * Use tinymce with an image uploader to edit pages and fragments!
-To dig deeper into this module, see <a href="documentation/manual/home.textile">the documentation</a>.
+
+To dig deeper into this module,  take a look at documentation/manual/home.textile.
 
 h1. Quickstart
 
@@ -31,33 +33,23 @@ Only connected users can edit pages, and (currently) they must have the @admin@ 
                 return false;
         }
 </code></pre>
-Create one (or more) template to display the pages, say @std.html@:
-<pre><code>
-#{extends 'main.html' /}
-#{set title:page.title /}
 
-&lt;div class=&quot;normal&quot;&gt;
-${page.body.raw()} 
-&lt;/div&gt;
+Optionally create the templates 
+* @cms/default.html@, which will be used to render your pages.
+* @cms/cms.html@, which will be used to render the cms admin pages.
 
-#{cms.editPage tmpl:'std',pageName:page.name /}
-</code></pre>
-(This assumes your have a general template @main.html@ to inherit.) Watch the @$page@ variable holding the page attributes name (the id and URL part), title and body. Use @body.raw()@ because you will have HTML content in there. The @cms.editPage@ Tag renders an @edit.button@, but only if an admin is logged in.
-
-Optionally create a template @cms/cms.html@, which will be used to render the cms admin pages.
-
-Now navigate to @/page/admin@ and create and edit pages using the Tiny MCE HTML editor. After your have created a page of name page1, eventually use the following URL to display it in your template std.html: @/page/std/page1@.
+Now navigate to @/page/admin@ and create and edit pages using the Tiny MCE HTML editor. After your have created a page of name, say, @page1@, eventually use the following URL to display it: @/page/page1@.
 
 *Congratulations! You just added a CMS to your Play! App!*
 
-You could also use this CMS to edit parts of your app. Simply put parts of your template into a cms display tag:
+You could also use this CMS to edit parts of your pages. Simply put parts, say the footer, of your template into a cms display tag:
 <pre><code>
 &lt;div id=&quot;footer&quot;&gt;
 #{cms.display 'footer' }
-    &lt;a href=&quot;/pages/terms.html&quot;&gt;Terms&lt;/a&gt;
+    &lt;a href=&quot;/page/terms.html&quot;&gt;Terms&lt;/a&gt;
 #{/cms.display}
 &lt;/div&gt;
 </code></pre>
-After having rendered the changed template once, there exists a CMS page 'footer'. Since this pages body is empty, you will not notice any differences in your app - yet! But if you start editing the new page and insert some content, this will be displayed instead of the content from your template.
+After having rendered the changed template once, there exists a CMS page 'footer'. Since this page is not active, you will not notice any differences in your app - yet! But if you start editing the new page and activate it, its content will be displayed instead of the content from your template.
 
-Simple remove the page or clear its body to re-establish the old content.
+Simple remove the page or inactivate it to re-establish the old content.
