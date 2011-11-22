@@ -24,6 +24,8 @@ import controllers.Secure;
 public class Admin extends Controller {
 
 	public static void index() {
+		if (!Profiler.canEnter())
+			forbidden();
 		List<CMSPage> pages = CMSPage.all().fetch();
 		render(pages);
 	}
@@ -48,7 +50,7 @@ public class Admin extends Controller {
 		renderTemplate("@edit", page);
 	}
 
-	public static void savePage(@Valid CMSPage page, String tmpl, boolean active) throws Throwable {
+	public static void savePage(@Valid CMSPage page, boolean active) throws Throwable {
 		if (!Profiler.canEdit(page.name))
 			forbidden();
 		page.active = active;
@@ -58,7 +60,7 @@ public class Admin extends Controller {
 		}
 		page.save();
 		if (request.params.get("savePage") != null)
-			Frontend.show(tmpl, page.name);
+			Frontend.show(null, page.name);
 		index();
 	}
 

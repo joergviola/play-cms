@@ -43,12 +43,6 @@ tinyMCE.init({
 </table>
 <input type="submit" name="saveList" value="Save &amp; goto page list">
 
-#{if (tmpl==null)}
-<input type="text" size="10" name="tmpl" value="">
-#{/if}
-#{else}
-<input type="hidden" name="tmpl" value="${tmpl}">
-#{/else}
 <input type="submit" name="savePage" value="Save &amp; goto page">
 <input type="submit" name="delete" value="Delete">
 
