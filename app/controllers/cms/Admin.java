@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 import play.data.validation.Valid;
 import play.db.jpa.Blob;
+import play.db.jpa.JPABase;
 import play.libs.MimeTypes;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -67,8 +68,11 @@ public class Admin extends Controller {
 	public static void upload(File data, String title) {
 		if (!Profiler.canEnter())
 			forbidden();
-		CMSImage image = new CMSImage();
-		image.name = data.getName();
+		CMSImage image = CMSImage.findById(data.getName());
+		if (image==null) {
+			image = new CMSImage();
+			image.name = data.getName();
+		}
 		if (StringUtils.isEmpty(title))
 			image.title = data.getName();
 		else
@@ -81,7 +85,7 @@ public class Admin extends Controller {
 			e.printStackTrace();
 		}
 		image.save();
-		redirectToStatic("/public/tiny_mce/plugins/advimage/image.htm");
+		redirect("/public/tiny_mce/plugins/advimage/image.htm?"+image.name);
 	}
 
 	public static void imagelist() {

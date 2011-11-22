@@ -17,7 +17,7 @@ var ImageDialog = {
 		this.fillFileList('over_list', fl);
 		this.fillFileList('out_list', fl);
 		TinyMCE_EditableSelects.init();
-
+		
 		if (n.nodeName == 'IMG') {
 			nl.src.value = dom.getAttrib(n, 'src');
 			nl.width.value = dom.getAttrib(n, 'width');
@@ -86,6 +86,19 @@ var ImageDialog = {
 
 		this.changeAppearance();
 		this.showPreviewImage(nl.src.value, 1);
+
+		var imgList = document.getElementById("src_list");
+		for(i=0;i<imgList.length;i++) {
+			if(imgList.options[i].innerHTML==window.location.search.substring(1)) {
+				imgList.selectedIndex = i;
+				var value = imgList.options[i].value;
+				this.showPreviewImage(value,1);
+				document.getElementById("src").value = value;
+				document.getElementById("alt").value = value;
+				document.getElementById("title").value = imgList.options[i].text;
+				break;
+			}
+		}
 	},
 
 	insert : function(file, title) {
