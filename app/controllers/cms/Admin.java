@@ -21,8 +21,6 @@ import play.mvc.With;
 import controllers.Check;
 import controllers.Secure;
 
-@With(Secure.class)
-@Check("admin")
 public class Admin extends Controller {
 
 	public static void index() {
@@ -31,6 +29,8 @@ public class Admin extends Controller {
 	}
 
 	public static void editPage(String tmpl, String pageName) {
+		if (!Profiler.canEdit(pageName))
+			forbidden();
 		CMSPage page = CMSPage.findById(pageName);
 		if (page==null) {
 			page = new CMSPage();
@@ -41,12 +41,16 @@ public class Admin extends Controller {
 	}
 
 	public static void addPage() {
+		if (!Profiler.canEnter())
+			forbidden();
 		CMSPage page = new CMSPage();
 		page.active = true;
 		renderTemplate("@edit", page);
 	}
 
 	public static void savePage(@Valid CMSPage page, String tmpl, boolean active) throws Throwable {
+		if (!Profiler.canEdit(page.name))
+			forbidden();
 		page.active = active;
 		if (request.params.get("delete") != null) {
 			page.delete();
@@ -59,6 +63,8 @@ public class Admin extends Controller {
 	}
 
 	public static void upload(File data, String title) {
+		if (!Profiler.canEnter())
+			forbidden();
 		CMSImage image = new CMSImage();
 		image.name = data.getName();
 		if (StringUtils.isEmpty(title))
@@ -77,6 +83,8 @@ public class Admin extends Controller {
 	}
 
 	public static void imagelist() {
+		if (!Profiler.canEnter())
+			forbidden();
 		List<CMSImage> images = CMSImage.findAll();
 		render(images);
 	}

@@ -19,7 +19,7 @@ Add routes:
 <pre><code>
 GET   /page     module:cms
 </code></pre>
-Only connected users can edit pages, and (currently) they must have the @admin@ profile, so check against that profile in your @controllers.Security.java@, e.g.:
+Of course only connected users can edit pages, and (by default) they must have the @admin@ profile, so check against that profile in your @controllers.Security.java@, e.g.:
 <pre><code>
         static boolean check(String profile) {
                 String username = connected();
@@ -33,12 +33,13 @@ Only connected users can edit pages, and (currently) they must have the @admin@ 
                 return false;
         }
 </code></pre>
-
-Optionally create the templates 
-* @cms/default.html@, which will be used to render your pages.
-* @cms/cms.html@, which will be used to render the cms admin pages.
+You can change the required cms profile by adding a configuration property named @cms.profile@.
 
 Now navigate to @/page/admin@ and create and edit pages using the Tiny MCE HTML editor. After your have created a page of name, say, @page1@, eventually use the following URL to display it: @/page/page1@.
+
+Optionally create the following templates to make the pages look more like being part of your app: 
+* @cms/default.html@, which will be used to render your pages.
+* @cms/cms.html@, which will be used to render the cms admin pages.
 
 *Congratulations! You just added a CMS to your Play! App!*
 
