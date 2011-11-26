@@ -37,8 +37,16 @@ tinyMCE.init({
 		<td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
 	</tr>
 	<tr valign="top">
+		<td>Tags:</td>
+		<td><input type="text" size="60" name="page.tags" value="${page.tags}"></td>
+	</tr>
+	<tr valign="top">
+		<td>Sort order:</td>
+		<td><input type="text" size="5" name="page.sort" value="${page.sort}"></td>
+	</tr>
+	<tr valign="top">
 		<td>Body:</td>
-		<td><textarea rows="30" cols="60" name="page.body">${page.body}</textarea></td>
+		<td><textarea rows="15" cols="60" name="page.body">${page.body}</textarea></td>
 	</tr>
 </table>
 <input type="submit" name="saveList" value="Save &amp; goto page list">

@@ -1,6 +1,5 @@
 package models.cms;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -26,14 +25,11 @@ public class CMSPage extends GenericModel {
 	@Column(length = 10000)
 	public String body;
 	public boolean active;
+	public Integer sort;
+	public String tags;
 
-	public static List<CMSPage> findByName(String regex) {
-		List<CMSPage> all = CMSPage.find("order by name").fetch();
-		List<CMSPage> result = new ArrayList<CMSPage>();
-		for (CMSPage page : all) {
-			if (page.name.matches(regex))
-				result.add(page);
-		}
-		return result;
+	public static List<CMSPage> findByTag(String tag) {
+		return CMSPage.find("tags like ? order by sort", "%" + tag + "%")
+				.fetch();
 	}
 }

@@ -3,10 +3,18 @@
 Welcome to Play!CMS. 
 <a href="/@documentation/modules/cms/home">Get help</a>.
 
-<table>
+<table border="0" cellpadding="5px">
+	<tr>
+		<td>Sort order</td>
+		<td>URL</td>
+		<td>Tags</td>
+		<td>Title</td>
+	</tr>
 #{list items:pages, as:'page' }
 	<tr>
+		<td>${page.sort}</td>
 		<td><a href="@{cms.Admin.editPage(null, page.name)}">${page.name}</a></td>
+		<td>${page.tags}</td>
 		<td>${page.title}</td>
 	</tr>
 #{/list}
