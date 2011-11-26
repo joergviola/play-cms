@@ -1,0 +1,44 @@
+h1. Quickstart
+
+Add the dependency in dependency.yml
+
+bc. require
+       - play -> cms 1.0
+
+Add routes:
+
+bc. GET   /page     module:cms
+
+Only connected users can edit pages, and (currently) they must have the @admin@ profile, so check against that profile in your @controllers.Security.java@, e.g.:
+
+bc.         static boolean check(String profile) {
+                String username = connected();
+                if (username == null)
+                        return false;
+                User user = User.findByName(username);
+                if (user == null)
+                        return false;
+                if ("admin".equals(profile))
+                        return user.admin;
+                return false;
+        }
+
+Optionally create the templates 
+* @cms/default.html@, which will be used to render your pages.
+* @cms/cms.html@, which will be used to render the cms admin pages.
+
+Now navigate to @/page/admin@ and create and edit pages using the Tiny MCE HTML editor. After your have created a page of name, say, @page1@, eventually use the following URL to display it: @/page/page1@.
+
+*Congratulations! You just added a CMS to your Play! App!*
+
+You could also use this CMS to edit parts of your pages. Simply put parts, say the footer, of your template into a cms display tag:
+
+bc. <div id="footer">
+#{cms.display 'footer' }
+    <a href="/page/terms.html">Terms</a>
+#{/cms.display}
+</div>
+
+After having rendered the changed template once, there exists a CMS page 'footer'. Since this page is not active, you will not notice any differences in your app - yet! But if you start editing the new page and activate it, its content will be displayed instead of the content from your template.
+
+Simple remove the page or inactivate it to re-establish the old content.

@@ -1,0 +1,36 @@
+h1. Tags and sorting
+
+It is also very easy to create menu-like structures using the CMS.
+Imagine for example you would like to have a subset of your CMS pages arranged in a help menue.
+Tag and sort fields come to your rescue.
+
+First tag all pages that are help pages. Do that by entering 'help' in the tags field of these pages. Now create a template for your help menue like that one:
+
+bc. #{extends 'main.html' /}
+#{set title:page.title /}
+#{set menu:'help' /}
+<div id="columnLeft">
+#{list items:page.findByTag('help'), as:'p' }
+	#{if p.equals(page)}
+		<div class="menueitem selected">
+			${p.title}
+		</div>
+	#{/if}
+	#{else}
+		<a href="/page/help/${p.name}">
+			<div class="menueitem">
+				${p.title}
+			</div>
+		</a>
+	#{/else}
+<br>
+#{/list}
+</div>
+<div id="columnRight">
+${page.body.raw()} 
+#{cms.edit page.name /}
+</div>
+
+The new thing here is the @findByTag@ method of the page. It is searching for all pages having the tag specified and returning them ordered ascending by their sort values.
+
+So iterate through your pages again and assign integer sort values to them to establish the page order in the menu.  
