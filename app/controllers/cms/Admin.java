@@ -19,8 +19,6 @@ import play.db.jpa.JPABase;
 import play.libs.MimeTypes;
 import play.mvc.Controller;
 import play.mvc.With;
-import controllers.Check;
-import controllers.Secure;
 
 public class Admin extends Controller {
 
