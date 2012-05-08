@@ -21,16 +21,19 @@ public class Tags extends FastTags {
 
 		String pageName = (String) args.get("arg");
 		CMSPage page = CMSPage.findById(pageName);
+
+    String safeBody = body != null ? JavaExtensions.toString(body) : "";
+
 		if (page == null) {
 			page = new CMSPage();
 			page.name = pageName;
 			page.title = "Fragment on "+template.template.name;
-			page.body = JavaExtensions.toString(body);
+			page.body = safeBody;
 			page.active = false;
 			page.save();
-			out.print(JavaExtensions.toString(body));
+			out.print(safeBody);
 		} else if (!page.active) {
-			out.print(JavaExtensions.toString(body));
+			out.print(safeBody);
 		} else {
 			out.print(page.body);
 		}
