@@ -52,7 +52,7 @@ public class Tags extends FastTags {
 			return;
 		HashMap<String, Object> args = new HashMap<String, Object>();
 		args.put("pageName", name);
-		out.print("<a href=\""+Router.getFullUrl("cms.Admin.editPage", args)+"\">");
+		out.print("<a class=\"cms-edit\" href=\""+Router.getFullUrl("cms.Admin.editPage", args)+"\">");
 		out.print("<img alt=\"Edit\" src=\"/public/images/edit.gif\">");
 		out.print("</a>");		
 	}
