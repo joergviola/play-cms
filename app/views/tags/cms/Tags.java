@@ -34,7 +34,7 @@ public class Tags extends FastTags {
 			out.print(safeBody);
 		} else if (!page.active) {
 			out.print(safeBody);
-		} else {
+		} else if (page.body != null) {
 			out.print(page.body);
 		}
 		edit(out, page.name);
