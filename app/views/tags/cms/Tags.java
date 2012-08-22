@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.commons.lang.StringUtils.isNotEmpty;
+
 @FastTags.Namespace("cms")
 public class Tags extends FastTags {
 	public static void _display(Map<?, ?> args, Closure body, PrintWriter out,
@@ -30,7 +32,8 @@ public class Tags extends FastTags {
 			page.title = "Fragment on "+template.template.name;
 			page.body = safeBody;
 			page.active = false;
-			page.save();
+			if (isNotEmpty(page.body))
+        page.save();
 			out.print(safeBody);
 		} else if (!page.active) {
 			out.print(safeBody);
