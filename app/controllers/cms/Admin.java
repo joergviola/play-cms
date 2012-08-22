@@ -33,6 +33,7 @@ public class Admin extends Controller {
 			page = new CMSPage();
 			page.name = pageName;
 			page.active = true;
+      page.locale = Lang.get();
 		}
 		renderTemplate("@edit", page, tmpl);
 	}

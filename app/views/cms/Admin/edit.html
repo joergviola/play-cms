@@ -1,65 +1,41 @@
 #{extends 'cms/cms.html' /}
 
-<head>
-<script type="text/javascript" src="/public/tiny_mce/tiny_mce.js" ></script >
-<script type="text/javascript" >
-tinyMCE.init({
-    mode : "textareas",
-    elements : 'nourlconvert',
-    theme : "advanced",
-    plugins : "advimage, advlink",
-    
-    // Theme options - button# indicated the row# only
-    theme_advanced_buttons1 : "preview,code,visualaid,|,bold,italic,underline,|,justifyleft,justifycenter,justifyright,fontselect,fontsizeselect,formatselect",
-    theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,|,forecolor,backcolor,|,hr,removeformat,|,charmap",
-    theme_advanced_buttons3 : "",
-    theme_advanced_toolbar_location : "top",
-    theme_advanced_toolbar_align : "left",
-    theme_advanced_statusbar_location : "bottom",
-    theme_advanced_resizing : true,
-    external_image_list_url : "imagelist.js",
-    extended_valid_elements : "object[width|height|classid|codebase],param[name|value],embed[src|type|width|height|flashvars|wmode]",
-    convert_urls : false
-});
-</script >
-</head>
+#{include 'cms/Admin/tiny_mce.html'/}
 
-#{form @cms.Admin.savePage()}
+#{form @cms.Admin.savePage(), id:'cms-edit-form'}
 <input type="hidden" name="page.id" value="${page.id}">
 <table>
-	<tr valign="top">
-		<td>Name:</td>
+	<tr>
+		<td>&{'Name'}</td>
 		<td><input type="text" size="20" name="page.name" value="${page.name}"></td>
 	</tr>
-	<tr valign="top">
-		<td>Title:</td>
-		<td><input type="text" size="60" name="page.title" value="${page.title}"></td>
-	</tr>
-	<tr valign="top">
-		<td>Active:</td>
-		<td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
-	</tr>
-  <tr valign="top">
-    <td>Language:</td>
-    <td>${page.locale}</td>
+  <tr>
+    <td>&{'Active'}</td>
+    <td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
   </tr>
-  <tr valign="top">
-		<td>Tags:</td>
+  <tr>
+		<td>&{'Title'}</td>
+		<td><input type="text" size="60" name="page.title" value="${page.title}"> (${page.locale})</td>
+	</tr>
+  <tr>
+		<td>&{'Tags'}</td>
 		<td><input type="text" size="60" name="page.tags" value="${page.tags}"></td>
 	</tr>
-	<tr valign="top">
-		<td>Sort order:</td>
-		<td><input type="text" size="5" name="page.sort" value="${page.sort}"></td>
+	<tr>
+		<td>&{'Sort order'}</td>
+		<td><input type="number" size="5" name="page.sort" value="${page.sort}"></td>
 	</tr>
-	<tr valign="top">
-		<td>Body:</td>
+	<tr>
+		<td>&{'Body'}</td>
 		<td><textarea rows="15" cols="60" name="page.body">${page.body}</textarea></td>
 	</tr>
+  <tr>
+    <td></td>
+    <td>
+      <input type="submit" name="saveList" value="&{'Save &amp; goto page list'}">
+      <input type="submit" name="savePage" value="&{'Save &amp; goto page'}">
+      <input type="submit" name="delete" value="&{'Delete'}">
+    </td>
+  </tr>
 </table>
-<input type="submit" name="saveList" value="Save &amp; goto page list">
-
-<input type="submit" name="savePage" value="Save &amp; goto page">
-<input type="submit" name="delete" value="Delete">
-
-
 #{/form}
