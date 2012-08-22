@@ -25,6 +25,7 @@ tinyMCE.init({
 </head>
 
 #{form @cms.Admin.savePage()}
+<input type="hidden" name="page.id" value="${page.id}">
 <table>
 	<tr valign="top">
 		<td>Name:</td>
@@ -38,7 +39,11 @@ tinyMCE.init({
 		<td>Active:</td>
 		<td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
 	</tr>
-	<tr valign="top">
+  <tr valign="top">
+    <td>Language:</td>
+    <td>${page.locale}</td>
+  </tr>
+  <tr valign="top">
 		<td>Tags:</td>
 		<td><input type="text" size="60" name="page.tags" value="${page.tags}"></td>
 	</tr>

@@ -1,24 +1,20 @@
 package controllers.cms;
 
+import models.cms.CMSImage;
+import models.cms.CMSPage;
+import org.apache.commons.lang.StringUtils;
+import play.data.validation.Valid;
+import play.db.jpa.Blob;
+import play.i18n.Lang;
+import play.libs.MimeTypes;
+import play.mvc.Controller;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import jj.play.org.eclipse.mylyn.wikitext.core.parser.MarkupParser;
-import jj.play.org.eclipse.mylyn.wikitext.textile.core.TextileLanguage;
-
-import models.cms.CMSImage;
-import models.cms.CMSPage;
-
-import org.apache.commons.lang.StringUtils;
-
-import play.data.validation.Valid;
-import play.db.jpa.Blob;
-import play.db.jpa.JPABase;
-import play.libs.MimeTypes;
-import play.mvc.Controller;
-import play.mvc.With;
+import static org.apache.commons.lang.StringUtils.defaultString;
 
 public class Admin extends Controller {
 
@@ -32,7 +28,7 @@ public class Admin extends Controller {
 	public static void editPage(String tmpl, String pageName) {
 		if (!Profiler.canEdit(pageName))
 			forbidden();
-		CMSPage page = CMSPage.findById(pageName);
+		CMSPage page = CMSPage.findByName(pageName, Lang.get());
 		if (page==null) {
 			page = new CMSPage();
 			page.name = pageName;
@@ -50,6 +46,7 @@ public class Admin extends Controller {
 	}
 
 	public static void savePage(@Valid CMSPage page, boolean active) throws Throwable {
+    page.locale = defaultString(page.locale, Lang.get());
 		if (!Profiler.canEdit(page.name))
 			forbidden();
 		page.active = active;

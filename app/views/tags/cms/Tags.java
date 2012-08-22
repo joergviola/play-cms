@@ -1,18 +1,17 @@
 package views.tags.cms;
 
-import groovy.lang.Closure;
-
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-
 import controllers.cms.Profiler;
-
+import groovy.lang.Closure;
 import models.cms.CMSPage;
+import play.i18n.Lang;
 import play.mvc.Router;
 import play.templates.FastTags;
 import play.templates.GroovyTemplate.ExecutableTemplate;
 import play.templates.JavaExtensions;
+
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 @FastTags.Namespace("cms")
 public class Tags extends FastTags {
@@ -20,13 +19,14 @@ public class Tags extends FastTags {
 			ExecutableTemplate template, int fromLine) throws Throwable {
 
 		String pageName = (String) args.get("arg");
-		CMSPage page = CMSPage.findById(pageName);
+		CMSPage page = CMSPage.findByName(pageName, Lang.get());
 
     String safeBody = body != null ? JavaExtensions.toString(body) : "";
 
 		if (page == null) {
 			page = new CMSPage();
 			page.name = pageName;
+      page.locale = Lang.get();
 			page.title = "Fragment on "+template.template.name;
 			page.body = safeBody;
 			page.active = false;
