@@ -1,5 +1,6 @@
 #{extends 'cms/cms.html' /}
 
+%{pages = pages.grep{it.locale == play.i18n.Lang.get()}}%
 <table class="table">
 	<tr>
 		<td>Sort order</td>
