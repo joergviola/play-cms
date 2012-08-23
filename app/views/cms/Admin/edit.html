@@ -6,35 +6,35 @@
 <input type="hidden" name="page.id" value="${page.id}">
 <table>
 	<tr>
-		<td>&{'Name'}</td>
+		<td>&{'cms.name'}</td>
 		<td><input type="text" size="20" name="page.name" value="${page.name}"></td>
 	</tr>
   <tr>
-    <td>&{'Active'}</td>
+    <td>&{'cms.active'}</td>
     <td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
   </tr>
   <tr>
-		<td>&{'Title'}</td>
+		<td>&{'cms.title'}</td>
 		<td><input type="text" size="60" name="page.title" value="${page.title}"> (${page.locale})</td>
 	</tr>
   <tr>
-		<td>&{'Tags'}</td>
+		<td>&{'cms.tags'}</td>
 		<td><input type="text" size="60" name="page.tags" value="${page.tags}"></td>
 	</tr>
 	<tr>
-		<td>&{'Sort order'}</td>
+		<td>&{'cms.order'}</td>
 		<td><input type="number" size="5" name="page.sort" value="${page.sort}"></td>
 	</tr>
 	<tr>
-		<td>&{'Body'}</td>
+		<td>&{'cms.body'}</td>
 		<td><textarea rows="15" cols="60" name="page.body">${page.body}</textarea></td>
 	</tr>
   <tr>
     <td></td>
     <td>
-      <input type="submit" name="saveList" value="&{'Save &amp; goto page list'}">
-      <input type="submit" name="savePage" value="&{'Save &amp; goto page'}">
-      <input type="submit" name="delete" value="&{'Delete'}">
+      <input type="submit" name="saveList" value="&{'cms.saveAndList'}">
+      <input type="submit" name="savePage" value="&{'cms.saveAndPage'}">
+      <input type="submit" name="delete" value="&{'cms.delete'}">
     </td>
   </tr>
 </table>
