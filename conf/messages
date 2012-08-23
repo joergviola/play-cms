@@ -3,7 +3,7 @@
 # For example, for french create a messages.fr file
 
 cms.name=Name
-cms.active=Active
+cms.active=Visible
 cms.title=Title
 cms.tags=Tags
 cms.order=Sort order
