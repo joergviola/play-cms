@@ -57,6 +57,6 @@ public class Tags extends FastTags {
 		args.put("pageName", name);
 		out.print("<a class=\"cms-edit\" href=\"" + Router.reverse("cms.Admin.editPage", args) + "\">");
 		out.print("<img alt=\"Edit\" src=\"/public/images/edit.gif\">");
-		out.print("</a>");		
+		out.print("</a>");
 	}
 }
