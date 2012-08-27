@@ -12,6 +12,7 @@ import play.mvc.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.defaultString;
@@ -21,7 +22,7 @@ public class Admin extends Controller {
 	public static void index() {
 		if (!Profiler.canEnter())
 			forbidden();
-		List<CMSPage> pages = CMSPage.all().fetch();
+		List<CMSPage> pages = CMSPage.find("order by time desc").fetch();
 		render(pages);
 	}
 
@@ -38,11 +39,19 @@ public class Admin extends Controller {
 		renderTemplate("@edit", page, tmpl);
 	}
 
-	public static void addPage() {
+  public static void editPageById(Long id) {
+    CMSPage page = CMSPage.findById(id);
+    if (!Profiler.canEdit(page.name)) forbidden();
+    renderTemplate("@edit", page);
+  }
+
+	public static void addPage(String tags) {
 		if (!Profiler.canEnter())
 			forbidden();
 		CMSPage page = new CMSPage();
 		page.active = true;
+    page.tags = tags;
+    page.locale = Lang.get();
 		renderTemplate("@edit", page);
 	}
 
@@ -51,6 +60,7 @@ public class Admin extends Controller {
 		if (!Profiler.canEdit(page.name))
 			forbidden();
 		page.active = active;
+    page.time = new Date();
 		if (request.params.get("delete") != null) {
 			page.delete();
 			index();
