@@ -11,17 +11,17 @@ To dig deeper into this module,  take a look at documentation/manual/home.textil
 h1. Quickstart
 
 Add the dependency in dependency.yml
-<code>
+<pre><code>
   require
        - play-cms -> cms 1.0
-  
+    
   repositories:
      - play-cms:
           type: http
           artifact: http://cloud.github.com/downloads/codeborne/play-cms/[module]-[revision].zip
           contains:
               - play-cms -> *
-</code>
+</code></pre>
 Add routes:
 <pre><code>
 GET   /page     module:cms
@@ -52,11 +52,11 @@ Optionally create the following templates to make the pages look more like being
 
 You could also use this CMS to edit parts of your pages. Simply put parts, say the footer, of your template into a cms display tag:
 <pre><code>
-<div id="footer">
-#{cms.display 'footer'}
-    <a href="/page/terms.html">Terms</a>
-#{/cms.display}
-</div>
+	<div id="footer">
+		#{cms.display 'footer'}
+		<a href="/page/terms.html">Terms</a>
+		#{/cms.display}
+	</div>
 </code></pre>
 After having rendered the changed template once, there exists a CMS page 'footer'. Since this page is not active, you will not notice any differences in your app - yet! But if you start editing the new page and activate it, its content will be displayed instead of the content from your template.
 
