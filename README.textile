@@ -12,15 +12,15 @@ h1. Quickstart
 
 Add the dependency in dependency.yml
 <pre><code>
-	require
-	    - play-cms -> cms 1.0
-	
-	repositories:
-		- play-cms:
-		  type: http
-		  artifact: http://cloud.github.com/downloads/codeborne/play-cms/[module]-[revision].zip
-		  contains:
-			- play-cms -> *
+    require
+        - play-cms -> cms 1.0
+    
+    repositories:
+        - play-cms:
+          type: http
+          artifact: http://cloud.github.com/downloads/codeborne/play-cms/[module]-[revision].zip
+          contains:
+              - play-cms -> *
 </code></pre>
 Add routes:
 <pre><code>
