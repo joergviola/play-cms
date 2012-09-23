@@ -11,16 +11,16 @@ To dig deeper into this module,  take a look at documentation/manual/home.textil
 h1. Quickstart
 
 Add the dependency in dependency.yml
-bc..
-    require
-        - play-cms -> cms 1.0
-    repositories:
-        - play-cms:
-          type: http
-          artifact: http://cloud.github.com/downloads/codeborne/play-cms/[module]-[revision].zip
-          contains:
-              - play-cms -> *
-
+<pre><code>
+        require
+                - play-cms -> cms 1.0
+        repositories:
+                - play-cms:
+                  type: http
+                  artifact: http://cloud.github.com/downloads/codeborne/play-cms/[module]-[revision].zip
+                  contains:
+                          - play-cms -> *
+</code></pre>
 Add routes:
 <pre><code>
 GET   /page     module:cms
