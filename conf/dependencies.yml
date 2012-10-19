@@ -1,4 +1,4 @@
-self: play -> cms 1.0
+self: play -> cms 1.1
 
 require:
     - play
