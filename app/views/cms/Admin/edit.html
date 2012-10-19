@@ -1,6 +1,6 @@
 #{extends 'cms/cms.html' /}
 
-#{include 'cms/Admin/tiny_mce.html'/}
+#{include 'cms/Admin/ckeditor.html'/}
 
 #{form @cms.Admin.savePage(), id:'cms-edit-form'}
 <input type="hidden" name="page.id" value="${page.id}">

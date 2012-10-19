@@ -1,0 +1,10 @@
+<script type="text/javascript" src="/public/ckeditor/ckeditor.js" ></script >
+<script type="text/javascript" >
+  $(function() {
+    CKEDITOR.replace('page.body', {
+      filebrowserImageBrowseUrl : '@{cms.Admin.imagelist()}',
+      filebrowserWindowWidth  : 800,
+      filebrowserWindowHeight : 515
+    });
+  });
+</script >
