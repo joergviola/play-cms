@@ -2,16 +2,15 @@ package controllers.cms;
 
 import models.cms.CMSImage;
 import models.cms.CMSPage;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.io.IOUtils;
 import play.data.validation.Valid;
-import play.db.jpa.Blob;
 import play.i18n.Lang;
-import play.libs.MimeTypes;
 import play.mvc.Controller;
+import play.mvc.Router;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -71,28 +70,31 @@ public class Admin extends Controller {
 		index();
 	}
 
-	public static void upload(File data, String title) {
+	public static void upload(File data) throws IOException {
 		if (!Profiler.canEnter())
 			forbidden();
+    checkAuthenticity();
+
 		CMSImage image = CMSImage.findById(data.getName());
-		if (image==null) {
+		if (image == null) {
 			image = new CMSImage();
 			image.name = data.getName();
 		}
-		if (StringUtils.isEmpty(title))
-			image.title = data.getName();
-		else
-			image.title = title;
-		String mimeType = MimeTypes.getContentType(data.getName());
-		image.data = new Blob();
-		try {
-			image.data.set(new FileInputStream(data), mimeType);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+    image.lastModified = new Date();
+		image.data = IOUtils.toByteArray(new FileInputStream(data));
 		image.save();
-		redirect("/public/tiny_mce/plugins/advimage/image.htm?"+image.name);
+		redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
 	}
+
+  public static void delete(String name) {
+    if (!Profiler.canEnter())
+      forbidden();
+    checkAuthenticity();
+
+    CMSImage image = CMSImage.findById(name);
+    image.delete();
+    redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
+  }
 
 	public static void imagelist() {
 		if (!Profiler.canEnter())
@@ -100,5 +102,4 @@ public class Admin extends Controller {
 		List<CMSImage> images = CMSImage.findAll();
 		render(images);
 	}
-	
 }

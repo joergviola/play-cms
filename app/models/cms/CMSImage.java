@@ -1,20 +1,24 @@
 package models.cms;
 
+import play.data.validation.Required;
+import play.db.jpa.GenericModel;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import java.util.Date;
 
-import play.data.validation.Required;
-import play.db.jpa.Blob;
-import play.db.jpa.GenericModel;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 public class CMSImage extends GenericModel {
-	@Required
-	@Id
+  @Id @Required
 	public String name;
-	@Required
-	public String title;
-	@Required
-	public Blob data;
 
+  @Temporal(TIMESTAMP)
+  public Date lastModified;
+
+	@Required @Lob
+	public byte[] data;
 }

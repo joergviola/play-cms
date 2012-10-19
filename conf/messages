@@ -1,6 +1,4 @@
 # Default cms messages
-# You can specialize this file for each language.
-# For example, for french create a messages.fr file
 
 cms.name=Name
 cms.active=Visible
@@ -12,3 +10,8 @@ cms.saveAndList=Save & goto page list
 cms.saveAndPage=Save & goto page
 cms.delete=Delete
 cms.page=Page
+cms.reallyDelete=Really delete
+cms.uploadedFileAlreadyExists=Uploaded file already exists
+cms.overwriteUploadedFile=Overwrite uploaded file?
+cms.upload=Upload
+cms.noImages=No Images

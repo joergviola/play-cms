@@ -1,7 +1,9 @@
+#{include 'cms/jquery.html'/}
 <script type="text/javascript" src="/public/ckeditor/ckeditor.js" ></script >
+<script type="text/javascript" src="/public/ckeditor/adapters/jquery.js" ></script >
 <script type="text/javascript" >
   $(function() {
-    CKEDITOR.replace('page.body', {
+    $('textarea[name="page.body"]').ckeditor({
       filebrowserImageBrowseUrl : '@{cms.Admin.imagelist()}',
       filebrowserWindowWidth  : 800,
       filebrowserWindowHeight : 515
