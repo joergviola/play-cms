@@ -44,26 +44,33 @@ public class Admin extends Controller {
     renderTemplate("@edit", page);
   }
 
-	public static void addPage(String tags) {
+	public static void addPage(String tags, String name) {
 		if (!Profiler.canEnter())
 			forbidden();
 		CMSPage page = new CMSPage();
 		page.active = true;
     page.tags = tags;
     page.locale = Lang.get();
+    page.name = name;
 		renderTemplate("@edit", page);
 	}
 
 	public static void savePage(@Valid CMSPage page, boolean active) throws Throwable {
-    page.locale = defaultString(page.locale, Lang.get());
 		if (!Profiler.canEdit(page.name))
 			forbidden();
+
+    page.locale = defaultString(page.locale, Lang.get());
 		page.active = active;
     page.time = new Date();
-		if (request.params.get("delete") != null) {
-			page.delete();
-			index();
-		}
+
+    if (request.params.get("delete") != null) {
+      page.delete();
+      index();
+    }
+
+    if (validation.hasErrors())
+      renderTemplate("@edit", page);
+
 		page.save();
 		if (request.params.get("savePage") != null)
 			Frontend.show(null, page.name);
