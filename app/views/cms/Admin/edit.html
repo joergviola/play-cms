@@ -1,5 +1,4 @@
 #{extends 'cms/cms.html' /}
-
 #{include 'cms/Admin/ckeditor.html'/}
 
 #{form @cms.Admin.savePage(), id:'cms-edit-form'}
@@ -24,6 +23,10 @@
 	<tr>
 		<td>&{'cms.order'}</td>
 		<td><input type="number" size="5" name="page.sort" value="${page.sort}"></td>
+	</tr>
+	<tr>
+		<td>&{'cms.editSource'}</td>
+		<td><input type="checkbox" name="page.editSource" #{if page.editSource}checked="checked"#{/if} value="on"></td>
 	</tr>
 	<tr>
 		<td>&{'cms.body'}</td>

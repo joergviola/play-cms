@@ -1,12 +1,25 @@
 #{include 'cms/jquery.html'/}
-<script type="text/javascript" src="/public/ckeditor/ckeditor.js" ></script >
-<script type="text/javascript" src="/public/ckeditor/adapters/jquery.js" ></script >
+<script type="text/javascript" src="/public/ckeditor/ckeditor.js" ></script>
+<script type="text/javascript" src="/public/ckeditor/adapters/jquery.js" ></script>
 <script type="text/javascript" >
+  function toggleCKEditor() {
+    if ($('input[name="page.editSource"]').is(':checked')) {
+      if (CKEDITOR && CKEDITOR.instances['page.body'])
+        CKEDITOR.instances['page.body'].destroy();
+    }
+    else {
+      $('textarea[name="page.body"]').ckeditor({
+        filebrowserImageBrowseUrl : '@{cms.Admin.imagelist()}',
+        filebrowserWindowWidth  : 800,
+        filebrowserWindowHeight : 515
+      });
+    }
+  }
+
   $(function() {
-    $('textarea[name="page.body"]').ckeditor({
-      filebrowserImageBrowseUrl : '@{cms.Admin.imagelist()}',
-      filebrowserWindowWidth  : 800,
-      filebrowserWindowHeight : 515
-    });
+    #{ifnot page?.editSource}
+      toggleCKEditor();
+    #{/ifnot}
+    $('input[name="page.editSource"]').click(toggleCKEditor);
   });
-</script >
+</script>

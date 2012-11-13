@@ -17,3 +17,4 @@ cms.upload=Загрузить
 cms.noImages=Нет изображений
 cms.edit=<- Изменить
 cms.fragment=Фрагмент на
+cms.editSource=Исходный код

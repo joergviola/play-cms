@@ -26,6 +26,7 @@ public class CMSPage extends Model {
 	public String body;
 
 	public boolean active;
+  public boolean editSource;
 	public Integer sort;
 	public String tags;
 

@@ -2,7 +2,7 @@
   config.removePlugins += 'about,allyhelp,button,print,maximize,newpage,pagebreak,resize,scayt,smiley,wsc,' + config.removePlugins;
   config.toolbar_Full =
       [
-        ['Source','-','Preview','-','ShowBlocks'],
+        ['Preview','-','ShowBlocks'],
         ['Link','Unlink','Anchor'],
         ['SpecialTag','Image','Table','SpecialChar'],
         ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
