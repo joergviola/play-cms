@@ -14,5 +14,7 @@
         ['RemoveFormat']
       ];
 
+  config.fillEmptyBlocks = false;
+  config.ignoreEmptyParagraph = true;
   config.language = 'ru';
 };
