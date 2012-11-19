@@ -15,6 +15,6 @@ cms.uploadedFileAlreadyExists=Файл с таким именем уже сущ�
 cms.overwriteUploadedFile=Переписать?
 cms.upload=Загрузить
 cms.noImages=Нет изображений
-cms.edit=<- Изменить
+cms.edit=← Изменить
 cms.fragment=Фрагмент на
 cms.editSource=Исходный код
