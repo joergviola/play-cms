@@ -14,20 +14,25 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.commons.lang.StringUtils.isEmpty;
 import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 @FastTags.Namespace("cms")
 public class Tags extends FastTags {
 	public static void _display(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) throws Throwable {
 		String pageName = (String) args.get("arg");
-		CMSPage page = CMSPage.findByName(pageName, Lang.get());
+    String locale = (String) args.get("locale");
+    if (isNotEmpty(locale) && !Lang.get().matches(locale)) return;
+
+    if (isEmpty(locale)) locale = Lang.get();
+		CMSPage page = CMSPage.findByName(pageName, locale);
 
     String safeBody = body != null ? JavaExtensions.toString(body) : "";
 
 		if (page == null) {
 			page = new CMSPage();
 			page.name = pageName;
-      page.locale = Lang.get();
+      page.locale = locale;
 			page.title = Messages.get("cms.fragment") + template.template.name;
 			page.body = safeBody;
 			page.active = false;
