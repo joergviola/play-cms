@@ -26,6 +26,7 @@ public class Frontend extends Controller {
 
 	public static void image(String name) {
     CMSImage image = CMSImage.findById(name);
+    if (image == null) notFound();
     response.contentType = MimeTypes.getContentType(name);
     response.setHeader("Last-Modified", new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z").format(image.lastModified));
     response.setHeader("Cache-Control", "max-age=604800"); // 7 days
