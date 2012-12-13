@@ -17,7 +17,7 @@ Add the dependency in dependency.yml
         repositories:
                 - play-cms:
                   type: http
-                  artifact: http://cloud.github.com/downloads/codeborne/play-cms/[module]-[revision].zip
+                  artifact: http://repo.codeborne.com/play-cms/[module]-[revision].zip
                   contains:
                           - play-cms -> *
 </code></pre>
