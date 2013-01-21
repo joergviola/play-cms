@@ -57,7 +57,7 @@ public class Tags extends FastTags {
 	private static void editLink(PrintWriter out, String name) throws Throwable {
 		if (!Profiler.canEdit(name))
 			return;
-		HashMap<String, Object> args = new HashMap<String, Object>();
+		HashMap<String, Object> args = new HashMap<>();
 		args.put("pageName", name);
 		out.print("<a class=\"cms-edit\" href=\"" + Router.reverse("cms.Admin.editPage", args) + "\">" + Messages.get("cms.edit") + "</a>");
 	}
