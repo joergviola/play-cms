@@ -11,7 +11,6 @@ import play.utils.Java;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
@@ -81,7 +80,7 @@ public class Admin extends Controller {
 		index();
 	}
 
-	public static void upload(File data) throws IOException {
+	public static void upload(File data) throws Throwable {
 		if (!Profiler.canEnter())
 			forbidden();
     checkAuthenticity();
@@ -94,16 +93,18 @@ public class Admin extends Controller {
     image.lastModified = new Date();
 		image.data = IOUtils.toByteArray(new FileInputStream(data));
 		image.save();
+    Extension.invoke("afterSave", image);
 		redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
 	}
 
-  public static void delete(String name) {
+  public static void delete(String name) throws Throwable {
     if (!Profiler.canEnter())
       forbidden();
     checkAuthenticity();
 
     CMSImage image = CMSImage.findById(name);
     image.delete();
+    Extension.invoke("afterDelete", image);
     redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
   }
 
@@ -118,6 +119,10 @@ public class Admin extends Controller {
     static void afterSave(CMSPage page) {}
 
     static void afterDelete(CMSPage page) {}
+
+    static void afterSave(CMSImage image) {}
+
+    static void afterDelete(CMSImage image) {}
 
     private static Object invoke(String m, Object... args) throws Throwable {
       try {
