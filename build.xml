@@ -20,7 +20,7 @@
     </path>
 
     <target name="build" depends="compile">
-        <mkdir dir="lib" />
+        <!--<mkdir dir="lib" />
         <copy todir="tmp/classes">
             <fileset dir="src">
                 <include name="**/*.properties"/>
@@ -36,14 +36,14 @@
                 </section>
             </manifest>
         </jar>
-        <delete dir="tmp" />
+        <delete dir="tmp" />-->
     </target>
 
     <target name="compile" depends="check">
-        <mkdir dir="tmp/classes" />
+        <!--<mkdir dir="tmp/classes" />
         <javac srcdir="src" destdir="tmp/classes" target="1.5" debug="true">
             <classpath refid="project.classpath" />
-        </javac>
+        </javac>-->
     </target>
 
 </project>

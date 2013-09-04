@@ -1,6 +1,6 @@
 self: play -> cms 1.2.8
 
 require:
-    - play
+    - play 1.2.5+
     - play -> secure
     
