@@ -8,7 +8,7 @@ play dependencies --sync
 play build-module
 
 if [ -e $TARGET ]; then
-    echo "Not publishing, $VERSION already exists"
+    echo "Not publishing, $MODULE-$VERSION already exists"
 else
     cp dist/*.zip $TARGET
 fi
