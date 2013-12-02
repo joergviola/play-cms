@@ -33,7 +33,9 @@ public class Tags extends FastTags {
       page.locale = locale;
 			page.title = Messages.get("cms.fragment") + " " + template.template.name;
 			page.body = body != null ? JavaExtensions.toString(body) : null;
-			page.active = true;
+
+      Boolean defaultActive = (Boolean) args.get("defaultActive");
+			page.active = defaultActive == null || defaultActive;
 			if (isNotEmpty(page.body))
         page.save();
 		}
