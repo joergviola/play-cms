@@ -19,7 +19,7 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
 
 @FastTags.Namespace("cms")
 public class Tags extends FastTags {
-	public static void _display(Map<?, ?> args, Closure placeholder, PrintWriter out, ExecutableTemplate template, int fromLine) throws Throwable {
+	public static void _display(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) throws Throwable {
 		String pageName = (String) args.get("arg");
     String locale = (String) args.get("locale");
     if (isNotEmpty(locale) && !Lang.get().matches(locale)) return;
@@ -27,24 +27,20 @@ public class Tags extends FastTags {
     if (isEmpty(locale)) locale = Lang.get();
 		CMSPage page = CMSPage.findByName(pageName, locale);
 
-    String body = "";
-
 		if (page == null) {
 			page = new CMSPage();
 			page.name = pageName;
       page.locale = locale;
-			page.title = Messages.get("cms.fragment") + template.template.name;
-			page.body = placeholder != null ? JavaExtensions.toString(placeholder) : body;
-			page.active = false;
+			page.title = Messages.get("cms.fragment") + " " + template.template.name;
+			page.body = body != null ? JavaExtensions.toString(body) : null;
+			page.active = true;
 			if (isNotEmpty(page.body))
         page.save();
 		}
-    else if (page.active && page.body != null) {
-      body = page.body;
-		}
 
     out.print("<div class=\"cms-content" + (Profiler.canEdit(page.name) ? " editable" : "") + "\">");
-    out.print(body);
+    if (page.active && page.body != null)
+      out.print(page.body);
     editLink(out, page.name);
     out.print("</div>");
 	}
