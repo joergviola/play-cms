@@ -62,7 +62,6 @@ public class Admin extends Controller {
 
     page.locale = defaultString(page.locale, Lang.get());
 		page.active = active;
-    page.time = new Date();
 
     if (request.params.get("delete") != null) {
       page.delete();
