@@ -21,6 +21,7 @@ import static org.apache.commons.lang.StringUtils.isNotEmpty;
 public class Tags extends FastTags {
 	public static void _display(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) throws Throwable {
 		String pageName = (String) args.get("arg");
+		String className = (String) args.get("class");
     String locale = (String) args.get("locale");
     if (isNotEmpty(locale) && !Lang.get().matches(locale)) return;
 
@@ -43,20 +44,20 @@ public class Tags extends FastTags {
     out.print("<div class=\"cms-content" + (Profiler.canEdit(page.name) ? " editable" : "") + "\">");
     if (page.active && page.body != null)
       out.print(page.body);
-    editLink(out, page.name);
+    editLink(out, page.name, className);
     out.print("</div>");
 	}
 	
 	public static void _edit(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) throws Throwable {
 		String pageName = (String) args.get("arg");
-		editLink(out, pageName);
+		editLink(out, pageName, "");
 	}
 
-	private static void editLink(PrintWriter out, String name) throws Throwable {
+	private static void editLink(PrintWriter out, String name, String className) throws Throwable {
 		if (!Profiler.canEdit(name))
 			return;
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("pageName", name);
-		out.print("<a class=\"cms-edit\" href=\"" + Router.reverse("cms.Admin.editPage", args) + "\">" + Messages.get("cms.edit") + "</a>");
+		out.print("<a class=\"cms-edit " + className + "\" href=\"" + Router.reverse("cms.Admin.editPage", args) + "\">" + Messages.get("cms.edit") + "</a>");
 	}
 }
