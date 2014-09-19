@@ -6,6 +6,7 @@ TARGET=/var/www/repo/play-$MODULE/$MODULE-$VERSION.zip
 rm -fr dist
 play dependencies --sync
 play build-module
+zip --delete dist/*.zip "modules/secure"
 
 if [ -e $TARGET ]; then
     echo "Not publishing, $MODULE-$VERSION already exists"
