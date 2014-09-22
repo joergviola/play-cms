@@ -27,7 +27,7 @@ public class Admin extends Controller {
 	}
 
 	public static void editPage(String tmpl, String pageName, Long id) {
-		CMSPage page = id != null ? CMSPage.findById(id) : CMSPage.findByName(pageName, Lang.get());
+		CMSPage page = id != null ? CMSPage.<CMSPage>findById(id) : CMSPage.findByName(pageName, Lang.get());
 		if (page==null) {
 			page = new CMSPage();
 			page.name = pageName;
