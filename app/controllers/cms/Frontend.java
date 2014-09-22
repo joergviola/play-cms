@@ -14,7 +14,7 @@ public class Frontend extends Controller {
 		CMSPage page = CMSPage.findByName(pageName, Lang.get());
 		if (page == null || !page.active) {
 			if (Profiler.canEdit(pageName))
-				Admin.editPage(null, pageName);
+				Admin.editPage(null, pageName, null);
 			else
 				notFound();
 		}
