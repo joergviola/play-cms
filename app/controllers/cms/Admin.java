@@ -60,6 +60,8 @@ public class Admin extends Controller {
 		if (!Profiler.canEdit(page.name))
 			forbidden();
 
+    checkAuthenticity();
+
     page.locale = defaultString(page.locale, Lang.get());
 		page.active = active;
     page.time = new Date();
