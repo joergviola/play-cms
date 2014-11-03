@@ -26,6 +26,7 @@ public class CMSPage extends Model {
   @Required public String title;
   public String author;
   @Temporal(TIMESTAMP) public Date time = new Date();
+  @Temporal(TIMESTAMP) public Date lastEditTime = time;
 
   @Required @Lob
 	@Type(type = "org.hibernate.type.TextType") @Column(length=10000)
@@ -49,6 +50,9 @@ public class CMSPage extends Model {
   }
 
   @Override public <T extends JPABase> T save() {
+    if (id != null) {
+      lastEditTime = new Date();
+    }
     T page = super.save();
     Cache.set(cacheKey(), page, CACHE_EXPIRATION);
     return page;

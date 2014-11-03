@@ -26,24 +26,20 @@ public class Admin extends Controller {
 		render(pages);
 	}
 
-	public static void editPage(String tmpl, String pageName) {
-		if (!Profiler.canEdit(pageName))
-			forbidden();
-		CMSPage page = CMSPage.findByName(pageName, Lang.get());
+	public static void editPage(String tmpl, String pageName, Long id) {
+		CMSPage page = id != null ? CMSPage.<CMSPage>findById(id) : CMSPage.findByName(pageName, Lang.get());
 		if (page==null) {
 			page = new CMSPage();
 			page.name = pageName;
 			page.active = true;
-      page.locale = Lang.get();
+			page.locale = Lang.get();
 		}
+
+		if (!Profiler.canEdit(page.name))
+			forbidden();
+
 		renderTemplate("@edit", page, tmpl);
 	}
-
-  public static void editPageById(Long id) {
-    CMSPage page = CMSPage.findById(id);
-    if (!Profiler.canEdit(page.name)) forbidden();
-    renderTemplate("@edit", page);
-  }
 
 	public static void addPage(String tags, String name) {
 		if (!Profiler.canEnter())
@@ -64,7 +60,6 @@ public class Admin extends Controller {
 
     page.locale = defaultString(page.locale, Lang.get());
 		page.active = active;
-    page.time = new Date();
 
     if (request.params.get("delete") != null) {
       page.delete();
