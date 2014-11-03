@@ -13,7 +13,7 @@ h1. Quickstart
 Add the dependency in dependency.yml
 <pre><code>
         require
-                - play-cms -> cms 1.2.9
+                - play-cms -> cms 1.3.5
         repositories:
                 - play-cms:
                   type: http
