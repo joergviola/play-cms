@@ -9,6 +9,7 @@
 GET      /admin						              cms.Admin.index
 GET      /admin/new						          cms.Admin.addPage
 POST     /admin/upload			            cms.Admin.upload
+POST     /admin/savepage                                cms.Admin.savePage
 GET      /admin/imagelist   					  cms.Admin.imagelist
 GET      /admin/edit		       	  cms.Admin.editPage
 
