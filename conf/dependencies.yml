@@ -1,4 +1,4 @@
-self: play -> cms 1.4
+self: play -> cms 1.4.1
 
 require:
     - play [1.2,1.3)

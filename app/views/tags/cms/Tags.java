@@ -32,7 +32,7 @@ public class Tags extends FastTags {
 			page = new CMSPage();
 			page.name = pageName;
       page.locale = locale;
-			page.title = Messages.get("cms.fragment") + " " + template.template.name;
+			page.title = Messages.get("cms.fragment") + " " + pageName;
 			page.body = body != null ? JavaExtensions.toString(body) : null;
 
       Boolean defaultActive = (Boolean) args.get("defaultActive");
