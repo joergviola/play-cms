@@ -1,173 +1,182 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>CMS Images</title>
-    <style type="text/css">
-      body {
-        margin: 0;
-        padding: 0;
-        background: transparent;
-      }
-      form {
-        display: inline-block;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-      }
-      li {
-        display: inline-block;
-        border: 1px solid gray;
-        float: left;
-        padding: 10px;
-        padding-top: 20px;
-        margin: 5px;
-        text-align: center;
-        vertical-align: middle;
-        background-color: lightgray;
-        border-radius: 5px;
-        width: 120px;
-        height: 120px;
-        position: relative;
-        overflow: hidden;
-        font-size: 11px;
-        cursor: pointer;
-      }
-      li:hover {
-        background-color: #eee;
-      }
-      #topPane {
-        text-align: center;
-        background-color: rgba(230,230,230,0.5);
-        height: 25px;
-        padding: 5px;
-        width: 100%;
-      }
-      #location {
-        font-size: large;
-        text-decoration: underline;        
-      }
-      #noFiles {
-        font-size: large;
-        text-align: center;
-        width: 95%;
-        margin: 20px;
-        position: absolute;
-        bottom: 50px;
-      }
+<head>
+  <title>CMS Images</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
 
-      a.delete {
-        text-decoration: none;
-        color: #8b0000;
-        position: absolute;
-        visibility: hidden;
-        right: 5px;
-        top: -5px;
-        font-size: 200%;
-      }
-      li:hover a.delete {
-        visibility: visible;
-      }
-    </style>
-    #{include 'cms/jquery.html'/}
-    <script type="text/javascript">
-      var files = [];
-      var fileUploadTotal = 0;
-      var fileUploadCount = 0;
+    form {
+      display: inline-block;
+    }
 
-      var thumbSize = 96;
-      function resizeThumb(img) {
-        if (img.height > img.width) {
-          if (img.height > thumbSize)
-            img.height = thumbSize;
-        }
-        else {
-          if (img.width > thumbSize)
-            img.width = thumbSize;
-        }
-      }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
 
-      function resizeHandler(event) {
-        $('ul').css('height', $(window).height() - 40);
-      }
+    li {
+      display: inline-block;
+      border: 1px solid gray;
+      float: left;
+      padding: 10px;
+      padding-top: 20px;
+      margin: 5px;
+      text-align: center;
+      vertical-align: middle;
+      background-color: lightgray;
+      border-radius: 5px;
+      width: 120px;
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+      font-size: 11px;
+      cursor: pointer;
+    }
 
-      function deleteFile(img) {
-        if (confirm('&{'cms.reallyDelete'} ' + img.attr('alt') + '?')) {
-          $("#delete-form input[name=name]").val(img.attr('alt'));
-          $("#delete-form").submit();
-        }
-      }
+    li:hover {
+      background-color: #eee;
+    }
 
-      function newFileOrOverwriting() {
-        var name = $('input[name=data]').val();
-        name = name.replace(/^[A-Za-z]:.*\\/, ''); // unwindowsify path
-        if (files[name]) {
-          return confirm('&{'cms.uploadedFileAlreadyExists'}: ' + name + '\n&{'cms.overwriteUploadedFile'}');
-        }
-        return true;
-      }
+    #topPane {
+      text-align: center;
+      background-color: rgba(230, 230, 230, 0.5);
+      height: 25px;
+      padding: 5px;
+      width: 100%;
+    }
 
-      function chooseFile(img) {
-        if (window.opener && window.opener.CKEDITOR) {
-          window.opener.CKEDITOR.tools.callFunction('${request.params['CKEditorFuncNum']}', img.attr('src'));
-          window.close();
-        }
-        else {
-          window.open(img.attr('src'));
-        }
-      }
+    #location {
+      font-size: large;
+      text-decoration: underline;
+    }
 
-      function uploadFile(form) {
-        if(newFileOrOverwriting()) {
-          $(form).submit();
-        }
-      }
+    #noFiles {
+      font-size: large;
+      text-align: center;
+      width: 95%;
+      margin: 20px;
+      position: absolute;
+      bottom: 50px;
+    }
 
-      $(function() {
-        $('img').bind('load', function(event) {
-          resizeThumb(event.target);
-        });
-        $('img').each(function() {
-          resizeThumb(this);
-        });
-        $(window).resize(resizeHandler);
-        resizeHandler();
+    a.delete {
+      text-decoration: none;
+      color: #8b0000;
+      position: absolute;
+      visibility: hidden;
+      right: 5px;
+      top: -5px;
+      font-size: 200%;
+    }
+
+    li:hover a.delete {
+      visibility: visible;
+    }
+  </style>
+#{include 'cms/jquery.html'/}
+  <script type="text/javascript">
+    var files = [];
+    var fileUploadTotal = 0;
+    var fileUploadCount = 0;
+
+    var thumbSize = 96;
+    function resizeThumb(img) {
+      if (img.height > img.width) {
+        if (img.height > thumbSize)
+          img.height = thumbSize;
+      }
+      else {
+        if (img.width > thumbSize)
+          img.width = thumbSize;
+      }
+    }
+
+    function resizeHandler(event) {
+      $('ul').css('height', $(window).height() - 40);
+    }
+
+    function deleteFile(img) {
+      if (confirm('&{'cms.reallyDelete'} ' + img.attr('alt') + '?')) {
+        $("#delete-form input[name=name]").val(img.attr('alt'));
+        $("#delete-form").submit();
+      }
+    }
+
+    function newFileOrOverwriting() {
+      var name = $('input[name=data]').val();
+      name = name.replace(/^[A-Za-z]:.*\\/, ''); // unwindowsify path
+      if (files[name]) {
+        return confirm('&{'cms.uploadedFileAlreadyExists'}: ' + name + '\n&{'cms.overwriteUploadedFile'}');
+      }
+      return true;
+    }
+
+    function chooseFile(img) {
+      if (window.opener && window.opener.CKEDITOR) {
+        window.opener.CKEDITOR.tools.callFunction('${request.params['CKEditorFuncNum']}', img.attr('src'));
+        window.close();
+      }
+      else {
+        window.open(img.attr('src'));
+      }
+    }
+
+    function uploadFile(form) {
+      if (newFileOrOverwriting()) {
+        $(form).submit();
+      }
+    }
+
+    $(function () {
+      $('img').bind('load', function (event) {
+        resizeThumb(event.target);
       });
-    </script>
-  </head>
-  <body>
-    <div id="topPane">
-      <form action="@{cms.Admin.delete()}?${request.querystring}" method="POST" id="delete-form" style="float: left">
-        #{authenticityToken/}
-        <input type="hidden" name="name">
-      </form>
-      <div id="uploadForm">
-        &{'cms.upload'}
-        <form action="@{cms.Admin.upload()}?${request.querystring}" method="POST" enctype="multipart/form-data" onsubmit="return newFileOrOverwriting()">
-          #{authenticityToken/}
-          <input type="file" name="data" style="width:250px" onchange="uploadFile(this.form);">
-        </form>
-      </div>
-    </div>
-    #{ifnot images}
-      <div id="noFiles">
-        &{'cms.noImages'}
-      </div>
-    #{/ifnot}
-    <ul>
-      #{list images, as:'image'}
-        <li>
-          <a href="javascript:deleteFile($('img#${image_index}'))" class="delete">×</a>
-          <a href="javascript:chooseFile($('img#${image_index}'))">
-            <img id="${image_index}" src="@{cms.Frontend.image(image.name)}" alt="${image.name}" border="0">
-            <div class="name">${image.name}</div>
-          </a>
-        </li>
-      #{/list}
-    </ul>
-  </body>
+      $('img').each(function () {
+        resizeThumb(this);
+      });
+      $(window).resize(resizeHandler);
+      resizeHandler();
+    });
+  </script>
+</head>
+<body>
+<div id="topPane">
+  <form action="@{cms.Admin.delete()}?${request.querystring}" method="POST" id="delete-form" style="float: left">
+  #{authenticityToken/}
+    <input type="hidden" name="name">
+  </form>
+  <div id="uploadForm">
+  &{'cms.upload'}
+    <form action="@{cms.Admin.upload()}?${request.querystring}" method="POST" enctype="multipart/form-data"
+          onsubmit="return newFileOrOverwriting()">
+    #{authenticityToken/}
+      <input type="file" name="data" style="width:250px" onchange="uploadFile(this.form);">
+    </form>
+  </div>
+</div>
+#{ifnot images}
+<div id="noFiles">
+&{'cms.noImages'}
+</div>
+#{/ifnot}
+<ul>
+#{list images, as:'image'}
+  <li>
+    <a href="javascript:deleteFile($('img#${image_index}'))" class="delete">×</a>
+    <a href="javascript:chooseFile($('img#${image_index}'))">
+      <img id="${image_index}" src="@{cms.Frontend.image(image.name)}" alt="${image.name}" border="0">
+      <div class="name">${image.name}</div>
+    </a>
+  </li>
+#{/list}
+</ul>
+</body>
 
 </html>
 

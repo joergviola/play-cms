@@ -10,24 +10,24 @@ import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
 
 public class Frontend extends Controller {
-	public static void show(String template, String pageName) throws Throwable {
-		CMSPage page = CMSPage.findByName(pageName, Lang.get());
-		if (page == null || !page.active) {
-			if (Profiler.canEdit(pageName))
-				Admin.editPage(null, pageName, null);
-			else
-				notFound();
-		}
-		if (template == null) {
-			template = "cms/default";
-		}
-		renderTemplate("/" + template + ".html", page);
-	}
+  public static void show(String template, String pageName) throws Throwable {
+    CMSPage page = CMSPage.findByName(pageName, Lang.get());
+    if (page == null || !page.active) {
+      if (Profiler.canEdit(pageName))
+        Admin.editPage(null, pageName, null);
+      else
+        notFound();
+    }
+    if (template == null) {
+      template = "cms/default";
+    }
+    renderTemplate("/" + template + ".html", page);
+  }
 
-	public static void image(String name) {
-		flash.keep();
-    
-		CMSImage image = CMSImage.findById(name);
+  public static void image(String name) {
+    flash.keep();
+
+    CMSImage image = CMSImage.findById(name);
     if (image == null) notFound();
     response.contentType = MimeTypes.getContentType(name);
     response.setHeader("Last-Modified", new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z").format(image.lastModified));

@@ -14,11 +14,11 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 public class CMSImage extends GenericModel {
   @Id @Required
-	public String name;
+  public String name;
 
   @Temporal(TIMESTAMP)
   public Date lastModified;
 
-	@Required @Lob
-	public byte[] data;
+  @Required @Lob
+  public byte[] data;
 }

@@ -18,10 +18,10 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 public class CMSPage extends Model {
-  public static final CMSPage NULL_PAGE = new CMSPage();
-  public static final String CACHE_EXPIRATION = Play.configuration.getProperty("cms.cache.expiration", "30mn");
+  private static final CMSPage NULL_PAGE = new CMSPage();
+  private static final String CACHE_EXPIRATION = Play.configuration.getProperty("cms.cache.expiration", "30mn");
 
-	@Required public String name;
+  @Required public String name;
   public String locale;
   @Required public String title;
   public String author;
@@ -29,13 +29,13 @@ public class CMSPage extends Model {
   @Temporal(TIMESTAMP) public Date lastEditTime = time;
 
   @Required @Lob
-	@Type(type = "org.hibernate.type.TextType") @Column(length=10000)
-	public String body;
+  @Type(type = "org.hibernate.type.TextType") @Column(length = 10000)
+  public String body;
 
-	public boolean active;
+  public boolean active;
   public boolean editSource;
-	public Integer sort;
-	public String tags;
+  public Integer sort;
+  public String tags;
 
   boolean isNullPage() {
     return id == null && name == null && body == null;
@@ -65,8 +65,8 @@ public class CMSPage extends Model {
   }
 
   public static List<CMSPage> findByTag(String tag) {
-		return find("tags like ? order by sort", "%" + tag + "%").fetch();
-	}
+    return find("tags like ? order by sort", "%" + tag + "%").fetch();
+  }
 
   public static CMSPage findByName(String name, String locale) {
     String key = cacheKey(name, locale);

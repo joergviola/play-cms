@@ -4,34 +4,34 @@
 #{form @cms.Admin.savePage(), id:'cms-edit-form'}
 <input type="hidden" name="page.id" value="${page.id}">
 <table>
-	<tr>
-		<td>&{'cms.name'}</td>
-		<td><input type="text" size="20" name="page.name" value="${page.name}"></td>
-	</tr>
+  <tr>
+    <td>&{'cms.name'}</td>
+    <td><input type="text" size="20" name="page.name" value="${page.name}"></td>
+  </tr>
   <tr>
     <td>&{'cms.active'}</td>
     <td><input type="checkbox" name="active" #{if page.active}checked="checked"#{/if} value="on"></td>
   </tr>
   <tr>
-		<td>&{'cms.title'}</td>
-		<td><input type="text" size="60" name="page.title" value="${page.title}"> (${page.locale})</td>
-	</tr>
+    <td>&{'cms.title'}</td>
+    <td><input type="text" size="60" name="page.title" value="${page.title}"> (${page.locale})</td>
+  </tr>
   <tr>
-		<td>&{'cms.tags'}</td>
-		<td><input type="text" size="60" name="page.tags" value="${page.tags}"></td>
-	</tr>
-	<tr>
-		<td>&{'cms.order'}</td>
-		<td><input type="number" size="5" name="page.sort" value="${page.sort}"></td>
-	</tr>
-	<tr>
-		<td>&{'cms.editSource'}</td>
-		<td><input type="checkbox" name="page.editSource" #{if page.editSource}checked="checked"#{/if} value="on"></td>
-	</tr>
-	<tr>
-		<td>&{'cms.body'}</td>
-		<td><textarea rows="15" cols="60" name="page.body">${page.body}</textarea></td>
-	</tr>
+    <td>&{'cms.tags'}</td>
+    <td><input type="text" size="60" name="page.tags" value="${page.tags}"></td>
+  </tr>
+  <tr>
+    <td>&{'cms.order'}</td>
+    <td><input type="number" size="5" name="page.sort" value="${page.sort}"></td>
+  </tr>
+  <tr>
+    <td>&{'cms.editSource'}</td>
+    <td><input type="checkbox" name="page.editSource" #{if page.editSource}checked="checked"#{/if} value="on"></td>
+  </tr>
+  <tr>
+    <td>&{'cms.body'}</td>
+    <td><textarea rows="15" cols="60" name="page.body">${page.body}</textarea></td>
+  </tr>
   <tr>
     <td></td>
     <td>
