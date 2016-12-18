@@ -2,6 +2,7 @@
 
 === 1.6 (19.12.2016)
 * redirect to URL instead of action
+* add prefix "/cms" to all "/admin/..." urls to avoid clash with some other "/admin" pages
 
 === 1.5 (4.05.2016)
 * Use play built-in method Java.invokeChildOrStatic (instead of re-inventing the wheel)
