@@ -1,0 +1,13 @@
+== Changelog
+
+=== 1.6 (19.12.2016)
+* redirect to URL instead of action
+
+=== 1.5 (4.05.2016)
+* Use play built-in method Java.invokeChildOrStatic (instead of re-inventing the wheel)
+
+=== 1.4.1 (15.02.2015)
+* make play-cms compatible with gt-engine (faster groovy templates)
+
+=== 1.4 (24.12.2014)
+* keep flash parameters when showing image (either valid or invalid).

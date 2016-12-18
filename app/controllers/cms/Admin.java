@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
+import static java.net.URLEncoder.encode;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang.StringUtils.defaultString;
 
 public class Admin extends Controller {
@@ -64,7 +66,7 @@ public class Admin extends Controller {
     if (request.params.get("delete") != null) {
       page.delete();
       Extension.invoke("afterDelete", page);
-      index();
+      redirect("/cms/admin");
     }
 
     if (validation.hasErrors())
@@ -73,8 +75,9 @@ public class Admin extends Controller {
     page.save();
     Extension.invoke("afterSave", page);
     if (request.params.get("savePage") != null)
-      Frontend.show(null, page.name);
-    index();
+      redirect("/" + encode(page.name, UTF_8.name()));
+    else
+      redirect("/cms/admin");
   }
 
   public static void upload(File data) throws Throwable {
