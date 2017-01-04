@@ -2,6 +2,7 @@ package controllers.cms;
 
 import models.cms.CMSImage;
 import models.cms.CMSPage;
+import models.cms.CMSPageRepository;
 import org.apache.commons.io.IOUtils;
 import play.data.validation.Valid;
 import play.i18n.Lang;
@@ -9,27 +10,30 @@ import play.mvc.Controller;
 import play.mvc.Router;
 import play.utils.Java;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import static java.net.URLEncoder.encode;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang.StringUtils.defaultString;
+import static play.db.jpa.JPA.em;
 
 public class Admin extends Controller {
-
+  @Inject static CMSPageRepository pages;
+  
   public static void index() {
     if (!Profiler.canEnter())
       forbidden();
-    List<CMSPage> pages = CMSPage.find("order by time desc").fetch();
-    render(pages);
+
+    renderArgs.put("pages", pages.all());
+    render();
   }
 
   public static void editPage(String tmpl, String pageName, Long id) {
-    CMSPage page = id != null ? CMSPage.findById(id) : CMSPage.findByName(pageName, Lang.get());
+    CMSPage page = id != null ? pages.byId(id) : CMSPage.findByName(pageName, Lang.get());
     if (page == null) {
       page = new CMSPage();
       page.name = pageName;
@@ -40,7 +44,9 @@ public class Admin extends Controller {
     if (!Profiler.canEdit(page.name))
       forbidden();
 
-    renderTemplate("@edit", page, tmpl);
+    renderArgs.put("page", page);
+    renderArgs.put("tmpl", tmpl);
+    renderTemplate("@edit");
   }
 
   public static void addPage(String tags, String name) {
@@ -51,7 +57,8 @@ public class Admin extends Controller {
     page.tags = tags;
     page.locale = Lang.get();
     page.name = name;
-    renderTemplate("@edit", page);
+    renderArgs.put("page", page);
+    renderTemplate("@edit");
   }
 
   public static void savePage(@Valid CMSPage page, boolean active) throws Throwable {
@@ -66,18 +73,29 @@ public class Admin extends Controller {
     if (request.params.get("delete") != null) {
       page.delete();
       Extension.invoke("afterDelete", page);
-      redirect("/cms/admin");
+      redirectToIndex();
     }
 
-    if (validation.hasErrors())
-      renderTemplate("@edit", page);
+    if (validation.hasErrors()) {
+      renderArgs.put("page", page);
+      renderTemplate("@edit");
+    }
 
     page.save();
     Extension.invoke("afterSave", page);
-    if (request.params.get("savePage") != null)
-      redirect("/" + encode(page.name, UTF_8.name()));
-    else
-      redirect("/cms/admin");
+    
+    if (request.params.get("savePage") != null) {
+      Map<String, Object> args = new HashMap<>();
+      args.put("pageName", page.name);
+      redirect(Router.reverse("cms.Frontend.show", args).url);
+    }
+    else {
+      redirectToIndex();
+    }
+  }
+
+  private static void redirectToIndex() {
+    redirect(Router.reverse("cms.Admin.index").url);
   }
 
   public static void upload(File data) throws Throwable {
@@ -85,7 +103,7 @@ public class Admin extends Controller {
       forbidden();
     checkAuthenticity();
 
-    CMSImage image = CMSImage.findById(data.getName());
+    CMSImage image = em().find(CMSImage.class, data.getName());
     if (image == null) {
       image = new CMSImage();
       image.name = data.getName();
@@ -102,7 +120,7 @@ public class Admin extends Controller {
       forbidden();
     checkAuthenticity();
 
-    CMSImage image = CMSImage.findById(name);
+    CMSImage image = em().find(CMSImage.class, name);
     image.delete();
     Extension.invoke("afterDelete", image);
     redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
@@ -111,8 +129,8 @@ public class Admin extends Controller {
   public static void imagelist() {
     if (!Profiler.canEnter())
       forbidden();
-    List<CMSImage> images = CMSImage.findAll();
-    render(images);
+    renderArgs.put("images", em().createQuery("select i from CMSImage i", CMSImage.class).getResultList());
+    render();
   }
 
   public static class Extension extends Controller {
@@ -121,7 +139,7 @@ public class Admin extends Controller {
     static void afterDelete(CMSPage page) {}
 
     static void afterSave(CMSImage image) {}
-    
+
     static void afterDelete(CMSImage image) {}
 
     private static Object invoke(String m, Object... args) throws Throwable {

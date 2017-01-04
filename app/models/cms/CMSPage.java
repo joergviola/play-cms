@@ -7,10 +7,7 @@ import play.data.validation.Required;
 import play.db.jpa.JPABase;
 import play.db.jpa.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -65,15 +62,24 @@ public class CMSPage extends Model {
   }
 
   public static List<CMSPage> findByTag(String tag) {
-    return find("tags like ? order by sort", "%" + tag + "%").fetch();
+    return em().createQuery("select p from CMSPage p where tags like :tags order by sort", CMSPage.class)
+        .setParameter("tags", "%" + tag + "%")
+        .getResultList();
   }
 
   public static CMSPage findByName(String name, String locale) {
     String key = cacheKey(name, locale);
     CMSPage page = (CMSPage) Cache.get(key);
     if (page == null) {
-      page = find("byNameAndLocale", name, locale).first();
-      if (page == null) page = NULL_PAGE;
+      try {
+        page = em().createQuery("select p from CMSPage p where name = :name and locale = :locale", CMSPage.class)
+            .setParameter("name", name)
+            .setParameter("locale", locale)
+            .getSingleResult();
+      }
+      catch (NoResultException notFound) {
+        page = NULL_PAGE;
+      }
       Cache.set(key, page, CACHE_EXPIRATION);
     }
     return page.isNullPage() ? null : page;

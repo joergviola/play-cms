@@ -1,5 +1,10 @@
 == Changelog
 
+=== 2.0 (03.01.2017)
+* use render methods that work without play enhancer
+* use DB methods that work without play enhancer
+* remove prefix "/cms" - it seems that prefix was added in another place (like `GET  /page  module:cms` in application's routes file)
+
 === 1.6 (19.12.2016)
 * redirect to URL instead of action
 * add prefix "/cms" to all "/admin/..." urls to avoid clash with some other "/admin" pages
