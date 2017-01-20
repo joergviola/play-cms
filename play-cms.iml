@@ -11,5 +11,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="play" />
+    <orderEntry type="module" module-name="play-rebel" />
   </component>
 </module>

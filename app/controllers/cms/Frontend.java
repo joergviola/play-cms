@@ -4,8 +4,8 @@ import models.cms.CMSImage;
 import models.cms.CMSPage;
 import play.i18n.Lang;
 import play.libs.MimeTypes;
-import play.mvc.Controller;
 import play.mvc.Router;
+import play.rebel.RebelController;
 
 import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
@@ -14,10 +14,10 @@ import java.util.Map;
 
 import static play.db.jpa.JPA.em;
 
-public class Frontend extends Controller {
+public class Frontend extends RebelController {
   private static final String MAX_AGE_7_DAYS = "max-age=604800";
 
-  public static void show(String template, String pageName) {
+  public void show(String template, String pageName) {
     CMSPage page = CMSPage.findByName(pageName, Lang.get());
     if (page == null || !page.active) {
       if (Profiler.canEdit(pageName)) {
@@ -32,10 +32,10 @@ public class Frontend extends Controller {
       template = "cms/default";
     }
     renderArgs.put("page", page);
-    renderTemplate("/" + template + ".html");
+    render("/" + template + ".html");
   }
 
-  public static void image(String name) {
+  public void image(String name) {
     flash.keep();
 
     CMSImage image = em().find(CMSImage.class, name);

@@ -1,5 +1,8 @@
 == Changelog
 
+=== 2.1 (21.01.2017)
+* use play-rebel 0.6, extend RebelController
+
 === 2.0 (03.01.2017)
 * use render methods that work without play enhancer
 * use DB methods that work without play enhancer

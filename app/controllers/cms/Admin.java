@@ -8,6 +8,7 @@ import play.data.validation.Valid;
 import play.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Router;
+import play.rebel.RebelController;
 import play.utils.Java;
 
 import javax.inject.Inject;
@@ -21,10 +22,10 @@ import java.util.Map;
 import static org.apache.commons.lang.StringUtils.defaultString;
 import static play.db.jpa.JPA.em;
 
-public class Admin extends Controller {
+public class Admin extends RebelController {
   @Inject static CMSPageRepository pages;
   
-  public static void index() {
+  public void index() {
     if (!Profiler.canEnter())
       forbidden();
 
@@ -32,7 +33,7 @@ public class Admin extends Controller {
     render();
   }
 
-  public static void editPage(String tmpl, String pageName, Long id) {
+  public void editPage(String tmpl, String pageName, Long id) {
     CMSPage page = id != null ? pages.byId(id) : CMSPage.findByName(pageName, Lang.get());
     if (page == null) {
       page = new CMSPage();
@@ -46,10 +47,10 @@ public class Admin extends Controller {
 
     renderArgs.put("page", page);
     renderArgs.put("tmpl", tmpl);
-    renderTemplate("@edit");
+    render("@edit");
   }
 
-  public static void addPage(String tags, String name) {
+  public void addPage(String tags, String name) {
     if (!Profiler.canEnter())
       forbidden();
     CMSPage page = new CMSPage();
@@ -58,10 +59,10 @@ public class Admin extends Controller {
     page.locale = Lang.get();
     page.name = name;
     renderArgs.put("page", page);
-    renderTemplate("@edit");
+    render("@edit");
   }
 
-  public static void savePage(@Valid CMSPage page, boolean active) throws Throwable {
+  public void savePage(@Valid CMSPage page, boolean active) throws Throwable {
     if (!Profiler.canEdit(page.name))
       forbidden();
 
@@ -78,7 +79,7 @@ public class Admin extends Controller {
 
     if (validation.hasErrors()) {
       renderArgs.put("page", page);
-      renderTemplate("@edit");
+      render("@edit");
     }
 
     page.save();
@@ -98,7 +99,7 @@ public class Admin extends Controller {
     redirect(Router.reverse("cms.Admin.index").url);
   }
 
-  public static void upload(File data) throws Throwable {
+  public void upload(File data) throws Throwable {
     if (!Profiler.canEnter())
       forbidden();
     checkAuthenticity();
@@ -115,7 +116,7 @@ public class Admin extends Controller {
     redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
   }
 
-  public static void delete(String name) throws Throwable {
+  public void delete(String name) throws Throwable {
     if (!Profiler.canEnter())
       forbidden();
     checkAuthenticity();
@@ -126,7 +127,7 @@ public class Admin extends Controller {
     redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
   }
 
-  public static void imagelist() {
+  public void imagelist() {
     if (!Profiler.canEnter())
       forbidden();
     renderArgs.put("images", em().createQuery("select i from CMSImage i", CMSImage.class).getResultList());
