@@ -1,5 +1,8 @@
 == Changelog
 
+=== 2.2 (13.02.2017)
+* use play-secure 0.5 instead of Play! built-in module "secure"
+
 === 2.1 (21.01.2017)
 * use play-rebel 0.6, extend RebelController
 
