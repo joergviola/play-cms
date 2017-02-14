@@ -1,5 +1,8 @@
 == Changelog
 
+=== 2.3 (14.02.2017)
+* upgrade to play-rebel 1.0 and play 1.5.+
+
 === 2.2 (13.02.2017)
 * use play-secure 0.5 instead of Play! built-in module "secure"
 
