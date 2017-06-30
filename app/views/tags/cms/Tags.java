@@ -29,6 +29,19 @@ public class Tags extends FastTags {
     CMSPage page = CMSPage.findByName(pageName, locale);
 
     if (page == null) {
+      page = createCmsPage(pageName, locale, args, body);
+    }
+
+    out.print("<div class=\"cms-content" + (Profiler.canEdit(page.name) ? " editable" : "") + "\">");
+    if (page.active && page.body != null)
+      out.print(page.body);
+    editLink(out, page.name, className);
+    out.print("</div>");
+  }
+
+  private static synchronized CMSPage createCmsPage(String pageName, String locale, Map<?, ?> args, Closure body) {
+    CMSPage page = CMSPage.findByName(pageName, locale);
+    if (page == null) {
       page = new CMSPage();
       page.name = pageName;
       page.locale = locale;
@@ -40,12 +53,7 @@ public class Tags extends FastTags {
       if (isNotEmpty(page.body))
         page.save();
     }
-
-    out.print("<div class=\"cms-content" + (Profiler.canEdit(page.name) ? " editable" : "") + "\">");
-    if (page.active && page.body != null)
-      out.print(page.body);
-    editLink(out, page.name, className);
-    out.print("</div>");
+    return page;
   }
 
   public static void _edit(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) {
