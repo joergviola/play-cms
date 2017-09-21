@@ -1,3 +1,5 @@
-/secure
 /eclipse
 /modules
+/dist
+/lib
+/*.iws

@@ -1,0 +1,36 @@
+== Changelog
+
+### 2.5 (2017-09-21)
+
+* use newer api of play-rebel 1.2
+
+=== 2.4 (30.06.2017)
+* upgrade to play-rebel 1.1
+* bugfix: sometimes `Tags` created the same `CMSPage` twice
+
+=== 2.3 (14.02.2017)
+* upgrade to play-rebel 1.0 and play 1.5.+
+
+=== 2.2 (13.02.2017)
+* use play-secure 0.5 instead of Play! built-in module "secure"
+
+=== 2.1 (21.01.2017)
+* use play-rebel 0.6, extend RebelController
+
+=== 2.0 (03.01.2017)
+* use render methods that work without play enhancer
+* use DB methods that work without play enhancer
+* remove prefix "/cms" - it seems that prefix was added in another place (like `GET  /page  module:cms` in application's routes file)
+
+=== 1.6 (19.12.2016)
+* redirect to URL instead of action
+* add prefix "/cms" to all "/admin/..." urls to avoid clash with some other "/admin" pages
+
+=== 1.5 (4.05.2016)
+* Use play built-in method Java.invokeChildOrStatic (instead of re-inventing the wheel)
+
+=== 1.4.1 (15.02.2015)
+* make play-cms compatible with gt-engine (faster groovy templates)
+
+=== 1.4 (24.12.2014)
+* keep flash parameters when showing image (either valid or invalid).

@@ -1,5 +1,20 @@
 # Default cms messages
-# You can specialize this file for each language.
-# For exemple, for french create a messages.fr file
 
-#cms.name=cms
+cms.name=Name
+cms.active=Visible
+cms.title=Title
+cms.tags=Tags
+cms.order=Sort order
+cms.body=Body
+cms.saveAndList=Save & goto page list
+cms.saveAndPage=Save & goto page
+cms.delete=Delete
+cms.page=Page
+cms.reallyDelete=Really delete
+cms.uploadedFileAlreadyExists=Uploaded file already exists
+cms.overwriteUploadedFile=Overwrite uploaded file?
+cms.upload=Upload
+cms.noImages=No Images
+cms.edit=← Edit
+cms.fragment=Fragment on
+cms.editSource=Edit source

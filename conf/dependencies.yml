@@ -1,6 +1,16 @@
-self: play -> cms 0.1
+self: play -> cms 2.5
 
 require:
-    - play
-    - play -> secure
-    
+    - play 1.5+
+
+    - play-codeborne -> secure 0.6
+    - play-codeborne -> rebel 1.2
+
+repositories:
+
+    - codeborne-modules-jars:
+        type: http
+        artifact: https://repo.codeborne.com/play-[module]/[module]-[revision].jar
+        contains:
+            - play-codeborne -> secure
+            - play-codeborne -> rebel

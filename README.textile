@@ -12,8 +12,14 @@ h1. Quickstart
 
 Add the dependency in dependency.yml
 <pre><code>
-  require
-       - play -> cms 1.0
+        require
+                - play-cms -> cms 2.0
+        repositories:
+                - play-cms:
+                  type: http
+                  artifact: http://repo.codeborne.com/play-cms/[module]-[revision].zip
+                  contains:
+                          - play-cms -> *
 </code></pre>
 Add routes:
 <pre><code>
@@ -45,11 +51,11 @@ Optionally create the following templates to make the pages look more like being
 
 You could also use this CMS to edit parts of your pages. Simply put parts, say the footer, of your template into a cms display tag:
 <pre><code>
-&lt;div id=&quot;footer&quot;&gt;
-#{cms.display 'footer' }
-    &lt;a href=&quot;/page/terms.html&quot;&gt;Terms&lt;/a&gt;
-#{/cms.display}
-&lt;/div&gt;
+	<div id="footer">
+		#{cms.display 'footer'}
+		<a href="/page/terms.html">Terms</a>
+		#{/cms.display}
+	</div>
 </code></pre>
 After having rendered the changed template once, there exists a CMS page 'footer'. Since this page is not active, you will not notice any differences in your app - yet! But if you start editing the new page and activate it, its content will be displayed instead of the content from your template.
 

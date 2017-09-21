@@ -6,15 +6,14 @@
 # ~~~~
 
 # Admin
-GET      /admin						              cms.Admin.index
-GET      /admin/new						          cms.Admin.addPage
-POST     /admin/upload					          cms.Admin.upload
-GET		 /admin/imagelist.js					  cms.Admin.imagelist
-GET      /admin/{pageName}			          	  cms.Admin.editPage
-GET      /admin/{pageName}			          	  cms.Admin.editPage
+GET      /admin                 cms.Admin.index
+GET      /admin/new             cms.Admin.addPage
+POST     /admin/upload          cms.Admin.upload
+POST     /admin/savepage        cms.Admin.savePage
+GET      /admin/imagelist       cms.Admin.imagelist
+GET      /admin/edit            cms.Admin.editPage
 
-#Frontend
-GET     /image/{name}              			cms.Frontend.image
-GET     /{template}/{pageName}              cms.Frontend.show
-GET     /{pageName}			              cms.Frontend.show
-
+# Frontend
+GET     /image/{name}           cms.Frontend.image
+GET     /{template}/{pageName}  cms.Frontend.show
+GET     /{pageName}             cms.Frontend.show
