@@ -1,5 +1,9 @@
 == Changelog
 
+### 2.5 (2017-09-21)
+
+* use newer api of play-rebel 1.2
+
 === 2.4 (30.06.2017)
 * upgrade to play-rebel 1.1
 * bugfix: sometimes `Tags` created the same `CMSPage` twice

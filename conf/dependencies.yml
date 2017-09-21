@@ -1,10 +1,10 @@
-self: play -> cms 2.4
+self: play -> cms 2.5
 
 require:
     - play 1.5+
 
     - play-codeborne -> secure 0.6
-    - play-codeborne -> rebel 1.1
+    - play-codeborne -> rebel 1.2
 
 repositories:
 

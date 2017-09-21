@@ -8,7 +8,11 @@ import play.data.validation.Valid;
 import play.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Router;
+import play.mvc.results.Forbidden;
+import play.mvc.results.Redirect;
+import play.mvc.results.Result;
 import play.rebel.RebelController;
+import play.rebel.RedirectToAction;
 import play.utils.Java;
 
 import javax.inject.Inject;
@@ -17,6 +21,7 @@ import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang.StringUtils.defaultString;
@@ -25,15 +30,15 @@ import static play.db.jpa.JPA.em;
 public class Admin extends RebelController {
   @Inject static CMSPageRepository pages;
   
-  public void index() {
-    if (!Profiler.canEnter())
-      forbidden();
+  public Result index() {
+    if (!Profiler.canEnter()) {
+      return new Forbidden();
+    }
 
-    renderArgs.put("pages", pages.all());
-    render();
+    return viewResult().with("pages", pages.all());
   }
 
-  public void editPage(String tmpl, String pageName, Long id) {
+  public Result editPage(String tmpl, String pageName, Long id) {
     CMSPage page = id != null ? pages.byId(id) : CMSPage.findByName(pageName, Lang.get());
     if (page == null) {
       page = new CMSPage();
@@ -42,29 +47,32 @@ public class Admin extends RebelController {
       page.locale = Lang.get();
     }
 
-    if (!Profiler.canEdit(page.name))
-      forbidden();
+    if (!Profiler.canEdit(page.name)) {
+      return new Forbidden();
+    }
 
     renderArgs.put("page", page);
     renderArgs.put("tmpl", tmpl);
-    render("@edit");
+    return viewResult("@edit");
   }
 
-  public void addPage(String tags, String name) {
-    if (!Profiler.canEnter())
-      forbidden();
+  public Result addPage(String tags, String name) {
+    if (!Profiler.canEnter()) {
+      return new Forbidden();
+    }
     CMSPage page = new CMSPage();
     page.active = true;
     page.tags = tags;
     page.locale = Lang.get();
     page.name = name;
     renderArgs.put("page", page);
-    render("@edit");
+    return viewResult("@edit");
   }
 
-  public void savePage(@Valid CMSPage page, boolean active) throws Throwable {
-    if (!Profiler.canEdit(page.name))
-      forbidden();
+  public Result savePage(@Valid CMSPage page, boolean active) throws Throwable {
+    if (!Profiler.canEdit(page.name)) {
+      return new Forbidden();
+    }
 
     checkAuthenticity();
 
@@ -74,12 +82,12 @@ public class Admin extends RebelController {
     if (request.params.get("delete") != null) {
       page.delete();
       Extension.invoke("afterDelete", page);
-      redirectToIndex();
+      return redirectToIndex();
     }
 
     if (validation.hasErrors()) {
       renderArgs.put("page", page);
-      render("@edit");
+      return viewResult("@edit");
     }
 
     page.save();
@@ -88,20 +96,21 @@ public class Admin extends RebelController {
     if (request.params.get("savePage") != null) {
       Map<String, Object> args = new HashMap<>();
       args.put("pageName", page.name);
-      redirect(Router.reverse("cms.Frontend.show", args).url);
+      return new RedirectToAction("cms.Frontend.show", args);
     }
     else {
-      redirectToIndex();
+      return redirectToIndex();
     }
   }
 
-  private static void redirectToIndex() {
-    redirect(Router.reverse("cms.Admin.index").url);
+  private RedirectToAction redirectToIndex() {
+    return new RedirectToAction("cms.Admin.index");
   }
 
-  public void upload(File data) throws Throwable {
-    if (!Profiler.canEnter())
-      forbidden();
+  public Result upload(File data) throws Throwable {
+    if (!Profiler.canEnter()) {
+      return new Forbidden();
+    }
     checkAuthenticity();
 
     CMSImage image = em().find(CMSImage.class, data.getName());
@@ -113,25 +122,28 @@ public class Admin extends RebelController {
     image.data = IOUtils.toByteArray(new FileInputStream(data));
     image.save();
     Extension.invoke("afterSave", image);
-    redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
+    return new Redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
   }
 
-  public void delete(String name) throws Throwable {
-    if (!Profiler.canEnter())
-      forbidden();
+  public Result delete(String name) throws Throwable {
+    if (!Profiler.canEnter()) {
+      return new Forbidden();
+    }
     checkAuthenticity();
 
     CMSImage image = em().find(CMSImage.class, name);
     image.delete();
     Extension.invoke("afterDelete", image);
-    redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
+    return new Redirect(Router.reverse("cms.Admin.imagelist").url + "?" + request.querystring);
   }
 
-  public void imagelist() {
-    if (!Profiler.canEnter())
-      forbidden();
-    renderArgs.put("images", em().createQuery("select i from CMSImage i", CMSImage.class).getResultList());
-    render();
+  public Result imagelist() {
+    if (!Profiler.canEnter()) {
+      return new Forbidden();
+    }
+
+    List<CMSImage> images = em().createQuery("select i from CMSImage i", CMSImage.class).getResultList();
+    return viewResult().with("images", images);
   }
 
   public static class Extension extends Controller {
